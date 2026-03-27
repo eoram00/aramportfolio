@@ -1,0 +1,29 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: false
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "portfolio"
+    label: "Portfolio"
+    files:
+      - name: "items"
+        label: "Portfolio Items"
+        file: "data/portfolio.json"
+        format: "json"
+        fields:
+          - name: "items"
+            label: "Items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "프로젝트 제목", name: "title", widget: "string" }
+              - { label: "카테고리", name: "category", widget: "string" }
+              - { label: "설명", name: "description", widget: "text" }
+              - { label: "썸네일", name: "image", widget: "image" }
+              - { label: "링크", name: "link", widget: "string" }
+              - { label: "연도", name: "year", widget: "string" }

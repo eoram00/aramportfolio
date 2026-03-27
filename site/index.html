@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Motion Portfolio</title>
+  <meta name="description" content="모션그래픽과 포트폴리오를 담은 개인 소개 사이트">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home">YOUR NAME</a>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+        <a class="owner-button" href="/admin/" aria-label="Owner admin">•</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-video-wrap" aria-hidden="true">
+          <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80">
+            <source src="assets/showreel.mp4" type="video/mp4">
+          </video>
+          <div class="hero-video-overlay"></div>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">Motion Graphics Portfolio</p>
+          <h1>움직임으로 기억에 남는 장면을 만드는 크리에이터</h1>
+          <p class="hero-text">
+            브랜드 영상, 타이포 모션, 감각적인 시각 흐름을 설계하고 제작합니다.
+            화면 뒤에서 직접 만든 대표 영상이 계속 흐르며 사이트 전체의 분위기를 만들고,
+            전면에는 소개와 작업만 또렷하게 남도록 구성했습니다.
+          </p>
+          <p class="hero-caption">배경 영상 파일 경로: <strong>assets/showreel.mp4</strong></p>
+          <div class="hero-actions">
+            <a class="primary-button reveal-button" href="#portfolio">작업 보기</a>
+            <a class="secondary-button reveal-button reveal-delay" href="#about">소개 보기</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="panel about-panel scroll-reveal">
+        <div class="section-heading">
+          <p class="eyebrow">About Me</p>
+          <h2>나를 소개하는 페이지</h2>
+        </div>
+
+        <div class="about-grid">
+          <article class="about-card reveal-item">
+            <h3>소개</h3>
+            <p>
+              안녕하세요. 저는 영상과 그래픽이 만나는 지점을 좋아하는 모션그래픽 디자이너입니다.
+              리듬감 있는 움직임과 선명한 메시지를 통해 브랜드의 분위기와 이야기를 전달하는 작업을 하고 있습니다.
+            </p>
+          </article>
+
+          <article class="about-card reveal-item">
+            <h3>강점</h3>
+            <p>
+              콘셉트 기획부터 애니메이션 디테일, 사운드와의 싱크 포인트까지 한 장면의 완성도를 높이는 데 집중합니다.
+              감각적인 스타일과 명확한 커뮤니케이션을 함께 가져가는 것이 제 작업 방식입니다.
+            </p>
+          </article>
+
+          <article class="about-card reveal-item">
+            <h3>툴</h3>
+            <p>After Effects, Premiere Pro, Illustrator, Photoshop, Blender, Figma</p>
+          </article>
+
+          <article class="about-card reveal-item">
+            <h3>한 줄 메시지</h3>
+            <p>“시선을 붙잡는 움직임, 오래 남는 인상.”</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="portfolio" class="panel portfolio-panel scroll-reveal">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Selected Works</p>
+            <h2>포트폴리오</h2>
+          </div>
+          <p class="section-note">
+            게시는 관리자 페이지에서만 가능합니다.
+          </p>
+        </div>
+        <div id="portfolio-list" class="portfolio-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="contact" class="panel contact-panel scroll-reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Contact</p>
+          <h2>연락하기</h2>
+        </div>
+        <div class="contact-card reveal-item">
+          <p>협업 제안이나 프로젝트 문의는 아래 메일 또는 SNS로 연락 주세요.</p>
+          <a href="mailto:yourmail@example.com">yourmail@example.com</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://www.behance.net/" target="_blank" rel="noreferrer">Behance</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
