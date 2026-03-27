@@ -2,9 +2,9 @@ backend:
   name: github
   repo: eoram00/aramportfolio
   branch: main
-  base_url: https://codenamearam-seven.vercel.app/
+  base_url: https://codenamearam-seven.vercel.app
   auth_endpoint: auth
-  site_domain: codenamearam-seven.vercel.app/
+  site_domain: codenamearam-seven.vercel.app
 
 local_backend: false
 
