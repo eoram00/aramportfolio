@@ -8,7 +8,7 @@ backend:
 
 local_backend: false
 
-media_folder: "assets/uploads"
+media_folder: "site/assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
@@ -17,7 +17,7 @@ collections:
     files:
       - name: "items"
         label: "Portfolio Items"
-        file: "data/portfolio.json"
+        file: "site/data/portfolio.json"
         format: "json"
         fields:
           - name: "items"
