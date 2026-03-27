@@ -7,6 +7,7 @@ function renderPortfolio(items) {
         아직 등록된 포트폴리오가 없습니다.
       </div>
     `;
+    bindRevealAnimations();
     return;
   }
 
