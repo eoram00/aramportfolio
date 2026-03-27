@@ -69,11 +69,28 @@ export default async function handler(req, res) {
   <body>
     <script>
       (function() {
-        const message = 'authorization:github:success:${content}';
-        if (window.opener) {
-          window.opener.postMessage(message, window.location.origin);
+        const payload = ${JSON.stringify(content)};
+        if (!window.opener) {
+          document.body.innerText = "Authentication completed, but no parent window was found.";
+          return;
         }
-        window.close();
+
+        window.opener.postMessage("authorizing:github", window.location.origin);
+
+        function receiveMessage(event) {
+          if (event.origin !== window.location.origin) {
+            return;
+          }
+
+          window.opener.postMessage(
+            "authorization:github:success:" + payload,
+            event.origin
+          );
+          window.removeEventListener("message", receiveMessage, false);
+          window.close();
+        }
+
+        window.addEventListener("message", receiveMessage, false);
       })();
     </script>
   </body>
