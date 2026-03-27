@@ -1,14 +1,14 @@
 :root {
-  --bg: #f3efe7;
-  --bg-strong: #e9dfcf;
-  --surface: rgba(255, 250, 242, 0.76);
-  --surface-strong: #fff8ee;
-  --text: #1c140d;
-  --muted: #66584d;
-  --line: rgba(28, 20, 13, 0.12);
-  --accent: #b5542f;
-  --accent-dark: #8d3919;
-  --shadow: 0 20px 60px rgba(56, 37, 18, 0.14);
+  --bg: #05070d;
+  --bg-strong: #0b1220;
+  --surface: rgba(10, 17, 32, 0.72);
+  --surface-strong: rgba(13, 22, 38, 0.9);
+  --text: #eaf2ff;
+  --muted: #8fa2bf;
+  --line: rgba(148, 179, 255, 0.14);
+  --accent: #4d86ff;
+  --accent-dark: #8cb8ff;
+  --shadow: 0 20px 60px rgba(2, 6, 18, 0.42);
 }
 
 * {
@@ -24,9 +24,9 @@ body {
   font-family: "Noto Sans KR", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(181, 84, 47, 0.18), transparent 28%),
-    radial-gradient(circle at 85% 10%, rgba(104, 135, 120, 0.16), transparent 25%),
-    linear-gradient(160deg, #f8f2e8 0%, #efe4d2 52%, #e4d5c0 100%);
+    radial-gradient(circle at top left, rgba(61, 107, 255, 0.18), transparent 26%),
+    radial-gradient(circle at 85% 10%, rgba(41, 84, 184, 0.16), transparent 24%),
+    linear-gradient(160deg, #03050a 0%, #08101d 48%, #10182a 100%);
   min-height: 100vh;
 }
 
@@ -34,8 +34,8 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(rgba(28, 20, 13, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(28, 20, 13, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(134, 164, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(134, 164, 255, 0.05) 1px, transparent 1px);
   background-size: 36px 36px;
   pointer-events: none;
   z-index: 1;
@@ -69,8 +69,8 @@ textarea {
   gap: 16px;
   padding: 14px 18px;
   backdrop-filter: blur(18px);
-  background: rgba(255, 248, 238, 0.75);
-  border: 1px solid rgba(28, 20, 13, 0.08);
+  background: rgba(8, 14, 26, 0.72);
+  border: 1px solid rgba(132, 168, 255, 0.12);
   border-radius: 20px;
   box-shadow: var(--shadow);
   z-index: 10;
@@ -159,9 +159,9 @@ textarea {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(7, 5, 4, 0.34) 0%, rgba(7, 5, 4, 0.72) 100%),
-    radial-gradient(circle at top left, rgba(181, 84, 47, 0.28), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(70, 118, 116, 0.22), transparent 28%);
+    linear-gradient(180deg, rgba(3, 6, 12, 0.22) 0%, rgba(3, 6, 12, 0.76) 100%),
+    radial-gradient(circle at top left, rgba(77, 134, 255, 0.24), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(34, 77, 170, 0.22), transparent 28%);
 }
 
 .hero-copy,
@@ -172,7 +172,7 @@ textarea {
 
 .hero-copy,
 .panel {
-  background: rgba(255, 250, 242, 0.14);
+  background: rgba(8, 14, 26, 0.5);
   backdrop-filter: blur(12px);
   border-radius: 28px;
 }
@@ -198,16 +198,21 @@ textarea {
   margin: 0;
   font-size: clamp(2.7rem, 6vw, 5rem);
   line-height: 0.95;
-  color: #fff8f2;
+  color: #f3f7ff;
 }
 
 .hero-text,
-.about-card p,
-.contact-card p,
 .section-note {
-  color: rgba(255, 245, 236, 0.76);
+  color: rgba(225, 236, 255, 0.78);
   line-height: 1.7;
 }
+
+.about-card p,
+.contact-card p {
+  color: #8fa2bf;
+  line-height: 1.7;
+}
+
 
 .hero-text {
   margin: 22px 0 0;
@@ -216,7 +221,7 @@ textarea {
 
 .hero-caption {
   margin: 18px 0 0;
-  color: rgba(255, 245, 236, 0.62);
+  color: rgba(184, 206, 255, 0.7);
   font-size: 0.94rem;
 }
 
@@ -251,7 +256,7 @@ textarea {
   justify-content: center;
   padding: 12px 18px;
   background: var(--accent);
-  color: #fff8f2;
+  color: #eef4ff;
 }
 
 .secondary-button {
@@ -259,13 +264,13 @@ textarea {
   align-items: center;
   justify-content: center;
   padding: 12px 18px;
-  background: rgba(255, 248, 238, 0.08);
-  border-color: rgba(255, 248, 238, 0.24);
-  color: #fff8f2;
+  background: rgba(116, 158, 255, 0.08);
+  border-color: rgba(144, 180, 255, 0.24);
+  color: #eef4ff;
 }
 
 .ghost-button {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(111, 150, 255, 0.12);
   border-color: var(--line);
   color: var(--text);
 }
@@ -279,9 +284,9 @@ textarea {
   padding: 0;
   font-size: 0.9rem;
   line-height: 1;
-  background: rgba(255, 248, 238, 0.08);
-  color: rgba(255, 248, 238, 0.44);
-  border: 1px solid rgba(255, 248, 238, 0.08);
+  background: rgba(111, 150, 255, 0.08);
+  color: rgba(189, 210, 255, 0.56);
+  border: 1px solid rgba(132, 168, 255, 0.12);
   cursor: pointer;
 }
 
@@ -440,12 +445,12 @@ textarea {
 }
 
 .empty-state {
-  border: 1px dashed rgba(28, 20, 13, 0.2);
+  border: 1px dashed rgba(132, 168, 255, 0.22);
   border-radius: 22px;
   padding: 32px;
   text-align: center;
   color: var(--muted);
-  background: rgba(255, 248, 238, 0.6);
+  background: rgba(10, 17, 32, 0.52);
 }
 
 @media (max-width: 960px) {
