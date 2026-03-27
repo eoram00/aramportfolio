@@ -1,6 +1,4 @@
 const portfolioList = document.getElementById("portfolio-list");
-const heroVideo = document.querySelector(".hero-video");
-const heroImage = document.querySelector(".hero-image");
 
 const fallbackItems = [
   {
@@ -103,20 +101,4 @@ async function loadPortfolio() {
   }
 }
 
-function setupHeroMedia() {
-  if (!heroVideo || !heroImage) {
-    return;
-  }
-
-  heroVideo.addEventListener("error", () => {
-    heroVideo.style.display = "none";
-    heroImage.style.display = "block";
-  });
-
-  heroVideo.addEventListener("loadeddata", () => {
-    heroVideo.style.display = "block";
-  });
-}
-
-setupHeroMedia();
 loadPortfolio();
