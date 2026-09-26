@@ -1,123 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>아람</title>
-  <meta name="description" content="소개와 포트폴리오 사이트">
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1efe8">
+  <meta name="description" content="ARAM — 움직임과 이미지로 오래 남는 첫인상을 만드는 비주얼 디자이너의 포트폴리오">
+  <title>ARAM — Visual & Motion Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="page-shell">
-    <header class="topbar">
-      <a class="brand" href="#home">ARAM</a>
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#contact">Contact</a>
-        <a class="owner-button" href="/admin/" aria-label="Owner admin">•</a>
+  <a class="skip-link" href="#portfolio">작업으로 바로가기</a>
+  <div class="site-wrap" id="home">
+    <header class="site-header">
+      <a class="wordmark" href="#home" aria-label="ARAM STUDIO, 맨 위로"><span class="brand-mark"><img src="assets/aram-studio-logo.png" alt=""></span><span class="brand-name">ARAM<br>STUDIO<span class="wordmark-dot">.</span></span></a>
+      <nav class="site-nav" aria-label="주 메뉴">
+        <a href="#portfolio">Works <span>↗</span></a>
+        <a href="#about">About <span>↗</span></a>
+        <a href="#contact">Contact <span>↗</span></a>
       </nav>
+      <a class="availability" href="mailto:aramaram0217@gmail.com"><span class="availability-dot"></span> 프로젝트 문의</a>
     </header>
 
-    <main id="home">
-      <section class="hero">
-        <div class="hero-video-wrap" aria-hidden="true">
-        <img class="hero-image" src="assets/hero-image.png" alt="">
-        <div class="hero-video-overlay"></div>
-      </div>
-
-        <div class="hero-copy">
-          <p class="eyebrow">My Portfolio</p>
-          <h1>스페셜한 Content-Creator: </h1>
-          <p class="hero-text">
-            애니메이션, 3D 모션, 감각적인 디자인을 설계, 그리고 제작.
-            폭력적으로 감각적인 디자인을 구축하는 크리에이터.
-          </p>
-          <div class="hero-actions">
-            <a class="primary-button reveal-button" href="#portfolio">작업 보기</a>
-            <a class="secondary-button reveal-button reveal-delay" href="#about">소개 보기</a>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-meta"><span>VISUAL & MOTION DESIGNER</span><span>2026 / SELECTED WORKS</span></div>
+        <div class="hero-layout">
+          <div class="hero-title-wrap">
+            <p class="hero-kicker">안녕하세요, 아람입니다.</p>
+            <h1 id="hero-title">눈길을 끌고,<br><em>기억에 남는</em><br>장면을 만듭니다<span class="period">.</span></h1>
+            <div class="hero-bottom">
+              <p>한 장의 이미지부터 움직이는 화면까지.<br>콘텐츠의 첫인상을 오래 남을 감각으로 바꿉니다.</p>
+              <a class="round-arrow" href="#portfolio" aria-label="작업 보러가기">↘</a>
+            </div>
+          </div>
+          <div class="hero-art" aria-label="아람의 대표 작업 이미지">
+            <img src="assets/hero-image.png" alt="아람의 비주얼 작업" fetchpriority="high">
+            <div class="hero-art-label"><span>ARAM STUDIO<br>IN MOTION</span><span>01 / 05</span></div>
           </div>
         </div>
+        <div class="hero-footnote"><span>SCROLL TO EXPLORE</span><span>THUMBNAIL · MOTION · 3D VISUAL</span></div>
       </section>
 
-      <section id="about" class="panel about-panel scroll-reveal">
+      <section class="works-section" id="portfolio" aria-labelledby="works-title">
+        <div class="section-topline"><span>01 / SELECTED WORKS</span><span>CLICK A CARD TO TURN IT OVER ↗</span></div>
         <div class="section-heading">
-          <p class="eyebrow">About Me</p>
-          <h2>내 소개</h2>
-        </div>
-
-        <div class="about-grid">
-          <article class="about-card reveal-item">
-            <h3>소개</h3>
-            <p>
-              안녕하세요. 저는 움직임을 다루는 3D Content-Creator , 아람입니다.
-              리듬감 있는 움직임과 선명한 메시지를 통해 제 분위기와 이야기를 전달하는 작업을 하고 있습니다.
-            </p>
-          </article>
-
-          <article class="about-card reveal-item">
-            <h3>강점</h3>
-            <p>
-              콘셉트 기획부터 애니메이션 디테일, 사운드와의 싱크 포인트까지, 작은 디테일까지, 한 장면의 완성도를 높이는 데 집중,
-              감각적인 스타일과 확실한 커뮤니케이션을 함께 가져가는 것이 제 작업 방식입니다.
-            </p>
-          </article>
-
-          <article class="about-card reveal-item">
-            <h3>툴</h3>
-            <p>After Effects, Premiere Pro, Illustrator, Photoshop, Blender, Roblox Studio</p>
-          </article>
-
-          <article class="about-card reveal-item">
-            <h3>한 줄 메시지</h3>
-            <p>“나답게”</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="portfolio" class="panel portfolio-panel scroll-reveal">
-        <div class="section-heading split-heading">
-          <div>
-            <p class="eyebrow">Selected Works</p>
-            <h2>포트폴리오</h2>
-          </div>
-          <p class="section-note">
-            게시는 관리자 페이지에서만 가능합니다.
-          </p>
+          <h2 id="works-title">작업을<br><em>뒤집어 보다.</em></h2>
+          <p>첫눈에 닿는 이미지와 그 뒤에 담긴 이야기.<br>카드를 눌러 작업의 다른 면을 살펴보세요.</p>
         </div>
         <div id="portfolio-list" class="portfolio-grid" aria-live="polite"></div>
       </section>
 
-      <section id="contact" class="panel contact-panel scroll-reveal">
-        <div class="section-heading">
-          <p class="eyebrow">Contact</p>
-          <h2>연락하기</h2>
-        </div>
-        <div class="contact-card reveal-item">
-          <p>외주 및 협업 제안 - 프로젝트 문의는 아래 메일 또는 SNS로 연락해주세요.</p>
-          <a href="mailto:yourmail@example.com">aramaram0217@gmail.com</a>
-          <p>Discord : tobytheegg</p>
-
+      <section class="about-section" id="about" aria-labelledby="about-title">
+        <div class="section-topline"><span>02 / ABOUT</span><span>THE PERSON BEHIND THE FRAME</span></div>
+        <div class="about-layout">
+          <div class="about-heading">
+            <p class="small-label">WHO I AM</p>
+            <h2 id="about-title">좋은 장면은<br><em>지나간 뒤에도</em><br>남으니까.</h2>
+            <div class="studio-stamp"><span class="stamp-mark"><img src="assets/aram-studio-logo.png" alt="ARAM STUDIO 심벌"></span><span>ARAM STUDIO<br>VISUAL & MOTION</span></div>
+          </div>
+          <div class="about-copy">
+            <p class="about-lead">저는 콘텐츠가 처음 마주치는 순간의 표정을 만듭니다.</p>
+            <p>강한 색, 낯선 구도, 빛과 움직임 사이에서 장면에 꼭 맞는 균형을 찾습니다. 설명을 더하기보다, 한 번 더 보고 싶어지는 이미지를 만드는 쪽을 택합니다.</p>
+            <div class="discipline-list"><span>01 — Motion Graphic</span><span>02 — Content Thumbnail</span><span>03 — 3D Visual</span></div>
+            <p class="tools-line">TOOLS / After Effects, Premiere Pro, Illustrator, Photoshop, Blender, Roblox Studio</p>
+          </div>
         </div>
       </section>
-    </main>
-  </div>
 
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="section-topline"><span>03 / CONTACT</span><span>LET'S MAKE SOMETHING MEMORABLE</span></div>
+        <p class="small-label">HAVE A PROJECT IN MIND?</p>
+        <h2 id="contact-title">함께 만들<br><em>다음 장면은?</em></h2>
+        <a class="contact-link" href="mailto:aramaram0217@gmail.com">aramaram0217@gmail.com <span>↗</span></a>
+        <div class="contact-footer"><span>외주 및 협업 문의를 기다립니다.</span><span>DISCORD / tobytheegg</span></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><span>© 2026 ARAM. ALL RIGHTS RESERVED.</span><a href="#home">BACK TO TOP ↑</a><a class="admin-link" href="/admin/" aria-label="관리자 페이지">·</a></footer>
+  </div>
   <script src="script.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", function(user) {
-        if (!user) {
-          window.netlifyIdentity.on("login", function() {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
 </body>
 </html>
