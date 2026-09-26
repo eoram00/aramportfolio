@@ -40,7 +40,7 @@ function renderPortfolio(items) {
     const link = safeLink(item.link);
     const linkLabel = link.startsWith("mailto:") ? "작업 문의하기" : link === "#contact" ? "문의하기" : "작업 보러가기";
     return `
-      <article class="portfolio-card tone-${(index % 5) + 1}">
+      <article class="portfolio-card tone-${(index % 5) + 1} card-enter">
         <div class="card-inner">
           <div class="card-face card-front">
             <button class="card-open" type="button" aria-expanded="false" aria-controls="card-back-${index}" aria-label="${title} 자세히 보기">
@@ -60,6 +60,16 @@ function renderPortfolio(items) {
   }).join("");
 
   const cards = [...portfolioList.querySelectorAll(".portfolio-card")];
+  if (document.documentElement.classList.contains("js-motion") && "IntersectionObserver" in window) {
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        cardObserver.unobserve(entry.target);
+      });
+    }, { threshold: .08 });
+    cards.forEach((card) => cardObserver.observe(card));
+  }
   function setCardOpen(card, open) {
     const front = card.querySelector(".card-open");
     const back = card.querySelector(".card-back");
@@ -103,9 +113,20 @@ async function loadPortfolio() {
 function initInteractions() {
   const hero = document.querySelector(".hero-layout");
   const stage = document.querySelector(".playground-stage");
-  const poster = document.querySelector(".character-card");
+  const scene = document.querySelector(".aram-scene");
+  const model = document.querySelector(".aram-model");
+  const objectStage = document.querySelector(".object-stage");
+  const floatingObject = document.querySelector(".floating-object");
   const progress = document.querySelector(".scroll-progress");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (reduceMotion.matches) model.removeAttribute("auto-rotate");
+  function sizeModel() {
+    const width = model.getBoundingClientRect().width;
+    const distance = Math.max(6, Math.min(9, 9 - ((width - 300) / 800) * 3));
+    model.setAttribute("camera-orbit", `0deg 90deg ${distance.toFixed(1)}m`);
+  }
+  sizeModel();
+  window.addEventListener("resize", sizeModel);
 
   function updateScrollProgress() {
     const travel = document.documentElement.scrollHeight - window.innerHeight;
@@ -129,14 +150,25 @@ function initInteractions() {
     const y = (event.clientY - bounds.top) / bounds.height - .5;
     stage.style.setProperty("--grid-x", `${x * 14}px`);
     stage.style.setProperty("--grid-y", `${y * 14}px`);
-    poster.style.setProperty("--move-x", `${x * 16}px`);
-    poster.style.setProperty("--move-y", `${y * 12}px`);
-    poster.style.setProperty("--rotate-x", `${-y * 4}deg`);
-    poster.style.setProperty("--rotate-y", `${x * 4}deg`);
+    scene.style.setProperty("--move-x", `${x * 16}px`);
+    scene.style.setProperty("--move-y", `${y * 12}px`);
   });
   stage.addEventListener("pointerleave", () => {
     ["--grid-x", "--grid-y"].forEach((name) => stage.style.removeProperty(name));
-    ["--move-x", "--move-y", "--rotate-x", "--rotate-y"].forEach((name) => poster.style.removeProperty(name));
+    ["--move-x", "--move-y"].forEach((name) => scene.style.removeProperty(name));
+  });
+
+  objectStage.addEventListener("pointermove", (event) => {
+    if (reduceMotion.matches || event.pointerType !== "mouse") return;
+    const bounds = objectStage.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - .5;
+    const y = (event.clientY - bounds.top) / bounds.height - .5;
+    floatingObject.style.setProperty("--object-x", `${x * 20}px`);
+    floatingObject.style.setProperty("--object-y", `${y * 14}px`);
+  });
+  objectStage.addEventListener("pointerleave", () => {
+    floatingObject.style.removeProperty("--object-x");
+    floatingObject.style.removeProperty("--object-y");
   });
 
   stage.querySelectorAll(".tone-swatch").forEach((button) => {
@@ -150,13 +182,13 @@ function initInteractions() {
     });
   });
 
-  poster.addEventListener("click", () => {
+  let boostTimer;
+  model.addEventListener("click", () => {
     if (reduceMotion.matches) return;
-    poster.classList.remove("is-playing");
-    void poster.offsetWidth;
-    poster.classList.add("is-playing");
+    model.setAttribute("rotation-per-second", "85deg");
+    window.clearTimeout(boostTimer);
+    boostTimer = window.setTimeout(() => model.setAttribute("rotation-per-second", "18deg"), 2000);
   });
-  poster.addEventListener("animationend", () => poster.classList.remove("is-playing"));
 
   if ("IntersectionObserver" in window && !reduceMotion.matches) {
     document.documentElement.classList.add("js-motion");

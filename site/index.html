@@ -45,33 +45,33 @@
       </section>
 
       <section class="playground-section" aria-labelledby="playground-title">
-        <div class="section-topline"><span>00 / STUDIO PLAYGROUND</span><span>MOVE, TAP, EXPLORE</span></div>
+        <div class="section-topline"><span>00 / IDENTITY IN MOTION</span><span>MOVE, CLICK, EXPLORE</span></div>
         <div class="playground-stage" data-tone="sky">
           <div class="playground-grid" aria-hidden="true"></div>
           <div class="playground-toolbar">
-            <span>ARAM STUDIO / A LITTLE PLAY</span>
-            <div class="tone-controls" role="group" aria-label="캐릭터 배경색 선택">
+            <span>ARAM STUDIO / TYPE EXPERIMENT</span>
+            <div class="tone-controls" role="group" aria-label="오브제 배경색 선택">
               <button class="tone-swatch is-active" type="button" data-tone="sky" aria-label="하늘색 배경" aria-pressed="true"></button>
               <button class="tone-swatch" type="button" data-tone="mint" aria-label="민트색 배경" aria-pressed="false"></button>
               <button class="tone-swatch" type="button" data-tone="peach" aria-label="살구색 배경" aria-pressed="false"></button>
             </div>
           </div>
           <div class="playground-copy reveal-on-scroll">
-            <p class="small-label">A PLAYFUL SIDE OF THE STUDIO</p>
-            <h2 id="playground-title">장면 사이,<br><em>조금 더 자유롭게.</em></h2>
-            <p>눈길이 닿는 순간부터 기분 좋은 움직임이 시작되도록.</p>
+            <p class="small-label">AN IDENTITY WITH MORE THAN ONE SIDE</p>
+            <h2 id="playground-title">이름에도<br><em>움직임을.</em></h2>
+            <p>형태가 회전할 때, 브랜드의 인상도 새로운 면을 드러냅니다.</p>
           </div>
-          <button class="character-card reveal-on-scroll" type="button" aria-label="캐릭터 포스터 움직이기">
-            <span class="character-card-image"><img src="assets/studio-characters.png" alt="함께 달리는 여섯 캐릭터 일러스트" loading="lazy"></span>
-            <span class="character-card-corner">ARAM / PLAY 001 ↗</span>
-          </button>
-          <div class="playground-foot"><span>MOVE OR TAP THE POSTER</span><span>DESIGNED TO FEEL ALIVE</span></div>
+          <div class="aram-scene reveal-on-scroll">
+            <span class="aram-orbit" aria-hidden="true"></span>
+            <model-viewer class="aram-model" src="assets/aram-word.glb" alt="입체 ARAM 글자 모델" camera-orbit="0deg 90deg auto" camera-controls disable-zoom touch-action="pan-y" auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" environment-image="neutral" exposure="1.35" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="playground-foot"><span>CLICK TO SPIN FASTER</span><span>DESIGNED TO FEEL ALIVE</span></div>
         </div>
       </section>
 
       <section class="works-section" id="portfolio" aria-labelledby="works-title">
         <div class="section-topline"><span>01 / SELECTED WORKS</span><span>CLICK A CARD TO TURN IT OVER ↗</span></div>
-        <div class="section-heading">
+        <div class="section-heading reveal-on-scroll">
           <h2 id="works-title">작업을<br><em>뒤집어 보다.</em></h2>
           <p>첫눈에 닿는 이미지와 그 뒤에 담긴 이야기.<br>카드를 눌러 작업의 다른 면을 살펴보세요.</p>
         </div>
@@ -81,31 +81,37 @@
       <section class="about-section" id="about" aria-labelledby="about-title">
         <div class="section-topline"><span>02 / ABOUT</span><span>THE PERSON BEHIND THE FRAME</span></div>
         <div class="about-layout">
-          <div class="about-heading">
+          <div class="about-heading reveal-on-scroll">
             <p class="small-label">WHO I AM</p>
             <h2 id="about-title">좋은 장면은<br><em>지나간 뒤에도</em><br>남으니까.</h2>
             <div class="studio-stamp"><span class="stamp-mark"><img src="assets/aram-studio-logo.png" alt="ARAM STUDIO 심벌"></span><span>ARAM STUDIO<br>VISUAL & MOTION</span></div>
           </div>
-          <div class="about-copy">
+          <div class="about-copy reveal-on-scroll">
             <p class="about-lead">저는 콘텐츠가 처음 마주치는 순간의 표정을 만듭니다.</p>
             <p>강한 색, 낯선 구도, 빛과 움직임 사이에서 장면에 꼭 맞는 균형을 찾습니다. 설명을 더하기보다, 한 번 더 보고 싶어지는 이미지를 만드는 쪽을 택합니다.</p>
             <div class="discipline-list"><span>01 — Motion Graphic</span><span>02 — Content Thumbnail</span><span>03 — 3D Visual</span></div>
             <p class="tools-line">TOOLS / After Effects, Premiere Pro, Illustrator, Photoshop, Blender, Roblox Studio</p>
           </div>
         </div>
+        <div class="object-stage reveal-on-scroll">
+          <div class="object-stage-label"><span>STUDIO OBJECT / 3D VISUAL</span><span>MOVE TO EXPLORE ↗</span></div>
+          <div class="object-glow" aria-hidden="true"></div>
+          <div class="floating-object"><img src="assets/studio-3d-visual.png" alt="체스 오브젝트 사이에 떠 있는 캐릭터 3D 장면" loading="lazy"></div>
+        </div>
       </section>
 
       <section class="contact-section" id="contact" aria-labelledby="contact-title">
         <div class="section-topline"><span>03 / CONTACT</span><span>LET'S MAKE SOMETHING MEMORABLE</span></div>
         <p class="small-label">HAVE A PROJECT IN MIND?</p>
-        <h2 id="contact-title">함께 만들<br><em>다음 장면은?</em></h2>
-        <a class="contact-link" href="mailto:aramaram0217@gmail.com">aramaram0217@gmail.com <span>↗</span></a>
+        <h2 id="contact-title" class="reveal-on-scroll">함께 만들<br><em>다음 장면은?</em></h2>
+        <a class="contact-link reveal-on-scroll" href="mailto:aramaram0217@gmail.com">aramaram0217@gmail.com <span>↗</span></a>
         <div class="contact-footer"><span>외주 및 협업 문의를 기다립니다.</span><span>DISCORD / tobytheegg</span></div>
       </section>
     </main>
 
     <footer class="site-footer"><span>© 2026 ARAM. ALL RIGHTS RESERVED.</span><a href="#home">BACK TO TOP ↑</a><a class="admin-link" href="/admin/" aria-label="관리자 페이지">·</a></footer>
   </div>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
