@@ -13,6 +13,7 @@
 </head>
 <body>
   <a class="skip-link" href="#portfolio">작업으로 바로가기</a>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <div class="site-wrap" id="home">
     <header class="site-header">
       <a class="wordmark" href="#home" aria-label="ARAM STUDIO, 맨 위로"><span class="brand-mark"><img src="assets/aram-studio-logo.png" alt=""></span><span class="brand-name">ARAM<br>STUDIO<span class="wordmark-dot">.</span></span></a>
@@ -38,10 +39,34 @@
           </div>
           <div class="hero-art" aria-label="아람의 대표 작업 이미지">
             <img src="assets/hero-image.png" alt="아람의 비주얼 작업" fetchpriority="high">
-            <div class="hero-art-label"><span>ARAM STUDIO<br>IN MOTION</span><span>01 / 05</span></div>
           </div>
         </div>
         <div class="hero-footnote"><span>SCROLL TO EXPLORE</span><span>THUMBNAIL · MOTION · 3D VISUAL</span></div>
+      </section>
+
+      <section class="playground-section" aria-labelledby="playground-title">
+        <div class="section-topline"><span>00 / STUDIO PLAYGROUND</span><span>MOVE, TAP, EXPLORE</span></div>
+        <div class="playground-stage" data-tone="sky">
+          <div class="playground-grid" aria-hidden="true"></div>
+          <div class="playground-toolbar">
+            <span>ARAM STUDIO / A LITTLE PLAY</span>
+            <div class="tone-controls" role="group" aria-label="캐릭터 배경색 선택">
+              <button class="tone-swatch is-active" type="button" data-tone="sky" aria-label="하늘색 배경" aria-pressed="true"></button>
+              <button class="tone-swatch" type="button" data-tone="mint" aria-label="민트색 배경" aria-pressed="false"></button>
+              <button class="tone-swatch" type="button" data-tone="peach" aria-label="살구색 배경" aria-pressed="false"></button>
+            </div>
+          </div>
+          <div class="playground-copy reveal-on-scroll">
+            <p class="small-label">A PLAYFUL SIDE OF THE STUDIO</p>
+            <h2 id="playground-title">장면 사이,<br><em>조금 더 자유롭게.</em></h2>
+            <p>눈길이 닿는 순간부터 기분 좋은 움직임이 시작되도록.</p>
+          </div>
+          <button class="character-card reveal-on-scroll" type="button" aria-label="캐릭터 포스터 움직이기">
+            <span class="character-card-image"><img src="assets/studio-characters.png" alt="함께 달리는 여섯 캐릭터 일러스트" loading="lazy"></span>
+            <span class="character-card-corner">ARAM / PLAY 001 ↗</span>
+          </button>
+          <div class="playground-foot"><span>MOVE OR TAP THE POSTER</span><span>DESIGNED TO FEEL ALIVE</span></div>
+        </div>
       </section>
 
       <section class="works-section" id="portfolio" aria-labelledby="works-title">

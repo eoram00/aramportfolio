@@ -100,4 +100,76 @@ async function loadPortfolio() {
   }
 }
 
+function initInteractions() {
+  const hero = document.querySelector(".hero-layout");
+  const stage = document.querySelector(".playground-stage");
+  const poster = document.querySelector(".character-card");
+  const progress = document.querySelector(".scroll-progress");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function updateScrollProgress() {
+    const travel = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.setProperty("--scroll-progress", `${travel > 0 ? (window.scrollY / travel) * 100 : 0}%`);
+  }
+  updateScrollProgress();
+  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("resize", updateScrollProgress);
+
+  hero.addEventListener("pointermove", (event) => {
+    if (reduceMotion.matches || event.pointerType !== "mouse") return;
+    const bounds = hero.getBoundingClientRect();
+    hero.style.setProperty("--hero-x", `${event.clientX - bounds.left}px`);
+    hero.style.setProperty("--hero-y", `${event.clientY - bounds.top}px`);
+  });
+
+  stage.addEventListener("pointermove", (event) => {
+    if (reduceMotion.matches || event.pointerType !== "mouse") return;
+    const bounds = stage.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - .5;
+    const y = (event.clientY - bounds.top) / bounds.height - .5;
+    stage.style.setProperty("--grid-x", `${x * 14}px`);
+    stage.style.setProperty("--grid-y", `${y * 14}px`);
+    poster.style.setProperty("--move-x", `${x * 16}px`);
+    poster.style.setProperty("--move-y", `${y * 12}px`);
+    poster.style.setProperty("--rotate-x", `${-y * 4}deg`);
+    poster.style.setProperty("--rotate-y", `${x * 4}deg`);
+  });
+  stage.addEventListener("pointerleave", () => {
+    ["--grid-x", "--grid-y"].forEach((name) => stage.style.removeProperty(name));
+    ["--move-x", "--move-y", "--rotate-x", "--rotate-y"].forEach((name) => poster.style.removeProperty(name));
+  });
+
+  stage.querySelectorAll(".tone-swatch").forEach((button) => {
+    button.addEventListener("click", () => {
+      stage.dataset.tone = button.dataset.tone;
+      stage.querySelectorAll(".tone-swatch").forEach((swatch) => {
+        const active = swatch === button;
+        swatch.classList.toggle("is-active", active);
+        swatch.setAttribute("aria-pressed", String(active));
+      });
+    });
+  });
+
+  poster.addEventListener("click", () => {
+    if (reduceMotion.matches) return;
+    poster.classList.remove("is-playing");
+    void poster.offsetWidth;
+    poster.classList.add("is-playing");
+  });
+  poster.addEventListener("animationend", () => poster.classList.remove("is-playing"));
+
+  if ("IntersectionObserver" in window && !reduceMotion.matches) {
+    document.documentElement.classList.add("js-motion");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll(".reveal-on-scroll").forEach((item) => observer.observe(item));
+  }
+}
+
+initInteractions();
 loadPortfolio();
