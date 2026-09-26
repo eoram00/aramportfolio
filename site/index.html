@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f1efe8">
+  <meta name="theme-color" content="#080e17">
   <meta name="description" content="ARAM — 움직임과 이미지로 오래 남는 첫인상을 만드는 비주얼 디자이너의 포트폴리오">
   <title>ARAM — Visual & Motion Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cinematic.css">
 </head>
 <body>
+  <div class="film-atmosphere" aria-hidden="true"></div>
   <a class="skip-link" href="#portfolio">작업으로 바로가기</a>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <div class="site-wrap" id="home">
@@ -30,11 +32,11 @@
         <div class="hero-meta"><span>VISUAL & MOTION DESIGNER</span><span>2026 / SELECTED WORKS</span></div>
         <div class="hero-layout">
           <div class="hero-title-wrap">
-            <p class="hero-kicker">안녕하세요, 아람입니다.</p>
-            <h1 id="hero-title">눈길을 끌고,<br><em>기억에 남는</em><br>장면을 만듭니다<span class="period">.</span></h1>
+            <p class="hero-kicker">ARAM STUDIO — A VISUAL JOURNEY</p>
+            <h1 id="hero-title">오래 남는<br><em>한 장면.</em></h1>
             <div class="hero-bottom">
-              <p>한 장의 이미지부터 움직이는 화면까지.<br>콘텐츠의 첫인상을 오래 남을 감각으로 바꿉니다.</p>
-              <a class="round-arrow" href="#portfolio" aria-label="작업 보러가기">↘</a>
+              <p>빛으로 시선을 붙잡고,<br>움직임으로 기억을 남깁니다.</p>
+              <a class="round-arrow" href="#identity" aria-label="다음 장면으로">↓</a>
             </div>
           </div>
           <div class="hero-art" aria-label="아람의 대표 작업 이미지">
@@ -44,12 +46,11 @@
         <div class="hero-footnote"><span>SCROLL TO EXPLORE</span><span>THUMBNAIL · MOTION · 3D VISUAL</span></div>
       </section>
 
-      <section class="playground-section" aria-labelledby="playground-title">
-        <div class="section-topline"><span>00 / IDENTITY IN MOTION</span><span>MOVE, CLICK, EXPLORE</span></div>
+      <section class="playground-section" id="identity" aria-labelledby="playground-title">
         <div class="playground-stage" data-tone="sky">
           <div class="playground-grid" aria-hidden="true"></div>
           <div class="playground-toolbar">
-            <span>ARAM STUDIO / TYPE EXPERIMENT</span>
+            <span>LIGHT IN MOTION</span>
             <div class="tone-controls" role="group" aria-label="오브제 배경색 선택">
               <button class="tone-swatch is-active" type="button" data-tone="sky" aria-label="하늘색 배경" aria-pressed="true"></button>
               <button class="tone-swatch" type="button" data-tone="mint" aria-label="민트색 배경" aria-pressed="false"></button>
@@ -57,32 +58,30 @@
             </div>
           </div>
           <div class="playground-copy reveal-on-scroll">
-            <p class="small-label">AN IDENTITY WITH MORE THAN ONE SIDE</p>
-            <h2 id="playground-title">이름에도<br><em>움직임을.</em></h2>
-            <p>형태가 회전할 때, 브랜드의 인상도 새로운 면을 드러냅니다.</p>
+            <p class="small-label">A DIFFERENT POINT OF VIEW</p>
+            <h2 id="playground-title">빛을 따라,<br><em>인상이 남다.</em></h2>
+            <p>각도를 바꾸면, 새로운 표정이 보입니다.</p>
           </div>
           <div class="aram-scene reveal-on-scroll">
             <span class="aram-orbit" aria-hidden="true"></span>
-            <model-viewer class="aram-model" src="assets/aram-word.glb" alt="입체 ARAM 글자 모델" camera-orbit="0deg 90deg auto" camera-controls disable-zoom touch-action="pan-y" auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" environment-image="neutral" exposure="1.35" interaction-prompt="none"></model-viewer>
+            <model-viewer class="aram-model" src="assets/aram-chrome.glb" alt="빛을 반사하며 회전하는 크롬 ARAM 입체 글자" camera-orbit="-15deg 82deg auto" field-of-view="30deg" camera-controls disable-zoom disable-pan touch-action="pan-y" auto-rotate auto-rotate-delay="1200" rotation-per-second="12deg" environment-image="assets/chrome-studio.hdr" exposure="1" interaction-prompt="none"></model-viewer>
           </div>
-          <div class="playground-foot"><span>CLICK TO SPIN FASTER</span><span>DESIGNED TO FEEL ALIVE</span></div>
+          <div class="playground-foot"><span>DRAG TO CHANGE YOUR PERSPECTIVE</span><span>KEEP SCROLLING ↓</span></div>
         </div>
       </section>
 
       <section class="works-section" id="portfolio" aria-labelledby="works-title">
-        <div class="section-topline"><span>01 / SELECTED WORKS</span><span>CLICK A CARD TO TURN IT OVER ↗</span></div>
         <div class="section-heading reveal-on-scroll">
-          <h2 id="works-title">작업을<br><em>뒤집어 보다.</em></h2>
-          <p>첫눈에 닿는 이미지와 그 뒤에 담긴 이야기.<br>카드를 눌러 작업의 다른 면을 살펴보세요.</p>
+          <h2 id="works-title">그리고,<br><em>장면이 되다.</em></h2>
+          <p>SELECTED WORKS<br>장면을 누르면, 그 뒤의 이야기가 펼쳐집니다.</p>
         </div>
         <div id="portfolio-list" class="portfolio-grid" aria-live="polite"></div>
       </section>
 
       <section class="about-section" id="about" aria-labelledby="about-title">
-        <div class="section-topline"><span>02 / ABOUT</span><span>THE PERSON BEHIND THE FRAME</span></div>
         <div class="about-layout">
           <div class="about-heading reveal-on-scroll">
-            <p class="small-label">WHO I AM</p>
+            <p class="small-label">BEHIND THE SCENES / ARAM</p>
             <h2 id="about-title">좋은 장면은<br><em>지나간 뒤에도</em><br>남으니까.</h2>
             <div class="studio-stamp"><span class="stamp-mark"><img src="assets/aram-studio-logo.png" alt="ARAM STUDIO 심벌"></span><span>ARAM STUDIO<br>VISUAL & MOTION</span></div>
           </div>
@@ -101,9 +100,8 @@
       </section>
 
       <section class="contact-section" id="contact" aria-labelledby="contact-title">
-        <div class="section-topline"><span>03 / CONTACT</span><span>LET'S MAKE SOMETHING MEMORABLE</span></div>
         <p class="small-label">HAVE A PROJECT IN MIND?</p>
-        <h2 id="contact-title" class="reveal-on-scroll">함께 만들<br><em>다음 장면은?</em></h2>
+        <h2 id="contact-title" class="reveal-on-scroll">다음 장면은,<br><em>함께.</em></h2>
         <a class="contact-link reveal-on-scroll" href="mailto:aramaram0217@gmail.com">aramaram0217@gmail.com <span>↗</span></a>
         <div class="contact-footer"><span>외주 및 협업 문의를 기다립니다.</span><span>DISCORD / tobytheegg</span></div>
       </section>

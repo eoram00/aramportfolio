@@ -121,19 +121,38 @@ function initInteractions() {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (reduceMotion.matches) model.removeAttribute("auto-rotate");
   function sizeModel() {
-    const width = model.getBoundingClientRect().width;
-    const distance = Math.max(6, Math.min(9, 9 - ((width - 300) / 800) * 3));
-    model.setAttribute("camera-orbit", `0deg 90deg ${distance.toFixed(1)}m`);
+    if (!model.loaded || typeof model.getDimensions !== "function") return;
+    const dimensions = model.getDimensions();
+    const bounds = model.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    // A padded bounding sphere fits the entire object at every orbit angle.
+    const radius = Math.hypot(dimensions.x, dimensions.y, dimensions.z) / 2;
+    const verticalHalfAngle = Math.PI / 12;
+    const limitingAngle = Math.atan(Math.tan(verticalHalfAngle) * Math.min(1, bounds.width / bounds.height));
+    const distance = radius / Math.sin(limitingAngle) * 1.12;
+    model.setAttribute("camera-orbit", `-15deg 82deg ${distance.toFixed(3)}m`);
+    model.dataset.framed = "true";
   }
-  sizeModel();
-  window.addEventListener("resize", sizeModel);
+  model.addEventListener("load", sizeModel);
+  customElements.whenDefined("model-viewer").then(sizeModel);
+  new ResizeObserver(sizeModel).observe(model);
 
+  let scrollFrame = 0;
   function updateScrollProgress() {
+    scrollFrame = 0;
     const travel = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.setProperty("--scroll-progress", `${travel > 0 ? (window.scrollY / travel) * 100 : 0}%`);
+    if (reduceMotion.matches) return;
+    const opening = Math.min(1, window.scrollY / window.innerHeight);
+    hero.style.setProperty("--hero-drift", `${opening * 75}px`);
+    document.body.style.setProperty("--atmosphere-y", `${Math.sin(window.scrollY / 1500) * 65}px`);
+    const stageBounds = stage.getBoundingClientRect();
+    stage.style.setProperty("--light-scale", String(1 + Math.min(.35, Math.max(0, -stageBounds.top / stageBounds.height) * .35)));
   }
   updateScrollProgress();
-  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("scroll", () => {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollProgress);
+  }, { passive: true });
   window.addEventListener("resize", updateScrollProgress);
 
   hero.addEventListener("pointermove", (event) => {
@@ -182,12 +201,8 @@ function initInteractions() {
     });
   });
 
-  let boostTimer;
-  model.addEventListener("click", () => {
-    if (reduceMotion.matches) return;
-    model.setAttribute("rotation-per-second", "85deg");
-    window.clearTimeout(boostTimer);
-    boostTimer = window.setTimeout(() => model.setAttribute("rotation-per-second", "18deg"), 2000);
+  reduceMotion.addEventListener("change", () => {
+    model.toggleAttribute("auto-rotate", !reduceMotion.matches);
   });
 
   if ("IntersectionObserver" in window && !reduceMotion.matches) {
