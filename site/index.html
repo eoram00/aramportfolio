@@ -10,13 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="studio.css">
+  <link rel="stylesheet" href="motion.css">
 </head>
 <body>
   <a class="skip-link" href="#portfolio">작업으로 바로가기</a>
   <div class="reading-progress" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="ARAM STUDIO, 맨 위로">
-      <span class="brand-symbol"><img src="assets/aram-studio-logo.png" alt=""></span>
+      <span class="brand-symbol"><img src="assets/aram-wordmark.svg" alt=""></span>
       <span>ARAM<br>STUDIO</span>
     </a>
     <span class="header-note">VISUAL DESIGN & MOTION</span>
@@ -25,12 +26,14 @@
   <main>
     <section class="hero" id="home" aria-labelledby="hero-title">
       <div class="hero-frame">
+        <div class="hero-light" aria-hidden="true"></div>
+        <div class="orbit-trace" aria-hidden="true"><span></span><span></span></div>
         <div class="hero-topline"><span>GRAPHIC / MOTION / 3D</span><span>PORTFOLIO / 2026</span></div>
         <h1 id="hero-title">ARAM<br><span>STUDIO</span></h1>
         <div class="model-stage">
           <model-viewer class="aram-model" src="assets/aram-liquid-chrome.glb" alt="회전하는 크롬 ARAM 글자. 드래그하거나 방향키로 회전할 수 있습니다." camera-orbit="-15deg 82deg auto" field-of-view="30deg" camera-controls disable-zoom disable-pan touch-action="pan-y" auto-rotate auto-rotate-delay="1800" rotation-per-second="9deg" environment-image="assets/liquid-chrome-studio.hdr" exposure="1" interaction-prompt="none"></model-viewer>
         </div>
-        <div class="model-caption"><span>CHROME LETTERING / 3D</span><div><span class="drag-hint">DRAG TO ROTATE</span><button class="motion-toggle" type="button" aria-label="자동 회전 일시정지" aria-pressed="false">PAUSE Ⅱ</button></div></div>
+        <div class="model-caption"><span class="scene-label">CHROME LETTERING / 3D</span><div><span class="drag-hint">DRAG TO ROTATE · SCROLL TO EXPLORE</span><button class="motion-toggle" type="button" aria-label="자동 회전 일시정지" aria-pressed="false">PAUSE Ⅱ</button></div></div>
         <div class="hero-bottom">
           <p class="hero-discipline">Images.<br>Motion.<br><span>Identity.</span></p>
           <p class="hero-intro">썸네일, 모션 그래픽,<br>3D 비주얼을 작업합니다.</p>
@@ -41,7 +44,7 @@
     <section class="works-section page-grid" id="portfolio" aria-labelledby="works-title">
       <div class="work-heading reveal">
         <div><p class="eyebrow">PORTFOLIO INDEX — <span data-work-count>06</span> PROJECTS</p><h2 id="works-title">Selected<br><span>work.</span></h2></div>
-        <p class="work-instruction">작업을 누르면 상세 내용을 볼 수 있습니다.<br><span>THUMBNAIL / MOTION / IDENTITY</span></p>
+        <p class="work-instruction">카드를 뒤집어 살펴보거나, 크게 감상하세요.<br><span>THUMBNAIL / MOTION / IDENTITY</span></p>
       </div>
       <div class="portfolio-grid" id="portfolio-list" aria-live="polite"></div>
       <p class="archive-end">END OF SELECTED WORK <span>↓</span></p>
@@ -62,6 +65,12 @@
     </section>
   </main>
   <footer class="site-footer page-grid"><a href="#home" class="footer-brand">ARAM STUDIO</a><span>© 2026</span><a href="#home">BACK TO TOP ↑</a><a class="admin-link" href="/admin/" aria-label="관리자 페이지">·</a></footer>
+  <dialog class="project-viewer" aria-labelledby="viewer-title">
+    <div class="viewer-top"><span class="viewer-index"></span><span class="viewer-category"></span><button class="viewer-close" type="button" aria-label="전체화면 감상 닫기">CLOSE <span>×</span></button></div>
+    <div class="viewer-art"><img class="viewer-image" alt=""></div>
+    <div class="viewer-bottom"><div class="viewer-copy"><h2 id="viewer-title"></h2><p class="viewer-description"></p></div><a class="viewer-link" href="#contact">작업 보러가기 ↗</a></div>
+    <div class="viewer-navigation"><button class="viewer-prev" type="button" aria-label="이전 작업">← PREV</button><span>SELECTED WORK</span><button class="viewer-next" type="button" aria-label="다음 작업">NEXT →</button></div>
+  </dialog>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
   <script src="script.js"></script>
 </body>

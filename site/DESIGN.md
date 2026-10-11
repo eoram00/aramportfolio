@@ -8,3 +8,10 @@
 - Type: DM Sans for Latin; Noto Sans KR for Korean. Titles use tight tracking; metadata uses small, widely spaced type.
 - Motion: the opening follows scroll only within its own container. Chrome uses a real GLB with safe camera framing. Cards flip on click; section content appears once. Respect reduced motion and provide a rotation pause control.
 - Contact: aramaram0217@gmail.com / Discord aramanim.
+
+## Scene transitions and interaction
+- The sky opening is a bounded sticky scene. Scroll progress moves the title out and rotates the real 3D lettering toward the centre. Native page scrolling stays intact.
+- The gallery overlaps the opening with a soft edge that flattens on entry. A shared background gradually changes from paper to deep blue before About, continuing through Contact.
+- Fine pointers gently tilt cards and move their highlight. Flip cards retain their detail view; the expand control opens an image viewer with next/previous navigation, arrow keys, mobile swipe and Escape to return.
+- Fullscreen uses shared image transitions when available. Reduced motion disables the scroll choreography, card tilt and shared transitions.
+- Header identity uses the original transparent vector from SVG/자산 1.svg, published as assets/aram-wordmark.svg. No bitmap background or blend workaround.
