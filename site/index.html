@@ -3,112 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080e17">
-  <meta name="description" content="ARAM — 움직임과 이미지로 오래 남는 첫인상을 만드는 비주얼 디자이너의 포트폴리오">
-  <title>ARAM — Visual & Motion Designer</title>
+  <meta name="theme-color" content="#badcf0">
+  <meta name="description" content="ARAM STUDIO — 썸네일, 모션 그래픽, 3D 비주얼. 아람의 작업 포트폴리오.">
+  <title>ARAM STUDIO — Selected Work</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="cinematic.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="studio.css">
 </head>
 <body>
-  <div class="film-atmosphere" aria-hidden="true"></div>
   <a class="skip-link" href="#portfolio">작업으로 바로가기</a>
-  <div class="scroll-progress" aria-hidden="true"><span></span></div>
-  <div class="site-wrap" id="home">
-    <header class="site-header">
-      <a class="wordmark" href="#home" aria-label="ARAM STUDIO, 맨 위로"><span class="brand-mark"><img src="assets/aram-studio-logo.png" alt=""></span><span class="brand-name">ARAM<br>STUDIO<span class="wordmark-dot">.</span></span></a>
-      <nav class="site-nav" aria-label="주 메뉴">
-        <a href="#portfolio">Works <span>↗</span></a>
-        <a href="#about">About <span>↗</span></a>
-        <a href="#contact">Contact <span>↗</span></a>
-      </nav>
-      <a class="availability" href="mailto:aramaram0217@gmail.com"><span class="availability-dot"></span> 프로젝트 문의</a>
-    </header>
-
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-meta"><span>VISUAL & MOTION DESIGNER</span><span>2026 / SELECTED WORKS</span></div>
-        <div class="hero-layout">
-          <div class="hero-title-wrap">
-            <p class="hero-kicker">ARAM STUDIO — A VISUAL JOURNEY</p>
-            <h1 id="hero-title">오래 남는<br><em>한 장면.</em></h1>
-            <div class="hero-bottom">
-              <p>빛으로 시선을 붙잡고,<br>움직임으로 기억을 남깁니다.</p>
-              <a class="round-arrow" href="#identity" aria-label="다음 장면으로">↓</a>
-            </div>
-          </div>
-          <div class="hero-art" aria-label="아람의 대표 작업 이미지">
-            <img src="assets/hero-image.png" alt="아람의 비주얼 작업" fetchpriority="high">
-          </div>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="ARAM STUDIO, 맨 위로">
+      <span class="brand-symbol"><img src="assets/aram-studio-logo.png" alt=""></span>
+      <span>ARAM<br>STUDIO</span>
+    </a>
+    <span class="header-note">VISUAL DESIGN & MOTION</span>
+    <nav aria-label="주 메뉴"><a href="#portfolio">Work <sup data-work-count>06</sup></a><a href="#about">About</a><a href="#contact">Contact ↗</a></nav>
+  </header>
+  <main>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="hero-frame">
+        <div class="hero-topline"><span>GRAPHIC / MOTION / 3D</span><span>PORTFOLIO / 2026</span></div>
+        <h1 id="hero-title">ARAM<br><span>STUDIO</span></h1>
+        <div class="model-stage">
+          <model-viewer class="aram-model" src="assets/aram-liquid-chrome.glb" alt="회전하는 크롬 ARAM 글자. 드래그하거나 방향키로 회전할 수 있습니다." camera-orbit="-15deg 82deg auto" field-of-view="30deg" camera-controls disable-zoom disable-pan touch-action="pan-y" auto-rotate auto-rotate-delay="1800" rotation-per-second="9deg" environment-image="assets/liquid-chrome-studio.hdr" exposure="1" interaction-prompt="none"></model-viewer>
         </div>
-        <div class="hero-footnote"><span>SCROLL TO EXPLORE</span><span>THUMBNAIL · MOTION · 3D VISUAL</span></div>
-      </section>
-
-      <section class="playground-section" id="identity" aria-labelledby="playground-title">
-        <div class="playground-stage" data-tone="sky">
-          <div class="playground-grid" aria-hidden="true"></div>
-          <div class="playground-toolbar">
-            <span>LIGHT IN MOTION</span>
-            <div class="tone-controls" role="group" aria-label="오브제 배경색 선택">
-              <button class="tone-swatch is-active" type="button" data-tone="sky" aria-label="하늘색 배경" aria-pressed="true"></button>
-              <button class="tone-swatch" type="button" data-tone="mint" aria-label="민트색 배경" aria-pressed="false"></button>
-              <button class="tone-swatch" type="button" data-tone="peach" aria-label="살구색 배경" aria-pressed="false"></button>
-            </div>
-          </div>
-          <div class="playground-copy reveal-on-scroll">
-            <p class="small-label">A DIFFERENT POINT OF VIEW</p>
-            <h2 id="playground-title">빛을 따라,<br><em>인상이 남다.</em></h2>
-            <p>각도를 바꾸면, 새로운 표정이 보입니다.</p>
-          </div>
-          <div class="aram-scene reveal-on-scroll">
-            <span class="aram-orbit" aria-hidden="true"></span>
-            <model-viewer class="aram-model" src="assets/aram-liquid-chrome.glb" alt="빛을 반사하며 회전하는 크롬 ARAM 입체 글자" camera-orbit="-15deg 82deg auto" field-of-view="30deg" camera-controls disable-zoom disable-pan touch-action="pan-y" auto-rotate auto-rotate-delay="1200" rotation-per-second="12deg" environment-image="assets/liquid-chrome-studio.hdr" exposure="1" interaction-prompt="none"></model-viewer>
-          </div>
-          <div class="playground-foot"><span>DRAG TO CHANGE YOUR PERSPECTIVE</span><span>KEEP SCROLLING ↓</span></div>
+        <div class="model-caption"><span>CHROME LETTERING / 3D</span><div><span class="drag-hint">DRAG TO ROTATE</span><button class="motion-toggle" type="button" aria-label="자동 회전 일시정지" aria-pressed="false">PAUSE Ⅱ</button></div></div>
+        <div class="hero-bottom">
+          <p class="hero-discipline">Images.<br>Motion.<br><span>Identity.</span></p>
+          <p class="hero-intro">썸네일, 모션 그래픽,<br>3D 비주얼을 작업합니다.</p>
+          <a class="work-entry" href="#portfolio"><span>SELECTED WORK</span><span class="entry-arrow">↓</span></a>
         </div>
-      </section>
-
-      <section class="works-section" id="portfolio" aria-labelledby="works-title">
-        <div class="section-heading reveal-on-scroll">
-          <h2 id="works-title">그리고,<br><em>장면이 되다.</em></h2>
-          <p>SELECTED WORKS<br>장면을 누르면, 그 뒤의 이야기가 펼쳐집니다.</p>
+      </div>
+    </section>
+    <section class="works-section page-grid" id="portfolio" aria-labelledby="works-title">
+      <div class="work-heading reveal">
+        <div><p class="eyebrow">PORTFOLIO INDEX — <span data-work-count>06</span> PROJECTS</p><h2 id="works-title">Selected<br><span>work.</span></h2></div>
+        <p class="work-instruction">작업을 누르면 상세 내용을 볼 수 있습니다.<br><span>THUMBNAIL / MOTION / IDENTITY</span></p>
+      </div>
+      <div class="portfolio-grid" id="portfolio-list" aria-live="polite"></div>
+      <p class="archive-end">END OF SELECTED WORK <span>↓</span></p>
+    </section>
+    <section class="about-section" id="about" aria-labelledby="about-title">
+      <div class="about-layout page-grid">
+        <div class="about-portrait reveal"><span class="image-label">3D STUDY / ARAM</span><div class="portrait-glow" aria-hidden="true"></div><img src="assets/studio-3d-visual.png" alt="체스 오브젝트와 캐릭터를 배치한 아람의 3D 작업" loading="lazy"></div>
+        <div class="about-copy reveal"><p class="eyebrow">ABOUT THE DESIGNER</p><h2 id="about-title">ARAM.</h2><p class="about-lead">썸네일과 모션 그래픽,<br>그리고 3D.</p><p class="about-description">게임과 음악 콘텐츠를 위한 이미지를 만듭니다. 프로젝트에 맞춰 구도와 색, 움직임을 설계합니다.</p>
+          <dl class="practice-list"><div><dt>01</dt><dd>Thumbnail & Visual Design</dd></div><div><dt>02</dt><dd>Motion Graphics</dd></div><div><dt>03</dt><dd>3D & Identity</dd></div></dl>
+          <p class="tools-note">After Effects · Premiere Pro · Illustrator<br>Photoshop · Blender · Roblox Studio</p>
         </div>
-        <div id="portfolio-list" class="portfolio-grid" aria-live="polite"></div>
-      </section>
-
-      <section class="about-section" id="about" aria-labelledby="about-title">
-        <div class="about-layout">
-          <div class="about-heading reveal-on-scroll">
-            <p class="small-label">BEHIND THE SCENES / ARAM</p>
-            <h2 id="about-title">좋은 장면은<br><em>지나간 뒤에도</em><br>남으니까.</h2>
-            <div class="studio-stamp"><span class="stamp-mark"><img src="assets/aram-studio-logo.png" alt="ARAM STUDIO 심벌"></span><span>ARAM STUDIO<br>VISUAL & MOTION</span></div>
-          </div>
-          <div class="about-copy reveal-on-scroll">
-            <p class="about-lead">저는 콘텐츠가 처음 마주치는 순간의 표정을 만듭니다.</p>
-            <p>강한 색, 낯선 구도, 빛과 움직임 사이에서 장면에 꼭 맞는 균형을 찾습니다. 설명을 더하기보다, 한 번 더 보고 싶어지는 이미지를 만드는 쪽을 택합니다.</p>
-            <div class="discipline-list"><span>01 — Motion Graphic</span><span>02 — Content Thumbnail</span><span>03 — 3D Visual</span></div>
-            <p class="tools-line">TOOLS / After Effects, Premiere Pro, Illustrator, Photoshop, Blender, Roblox Studio</p>
-          </div>
-        </div>
-        <div class="object-stage reveal-on-scroll">
-          <div class="object-stage-label"><span>STUDIO OBJECT / 3D VISUAL</span><span>MOVE TO EXPLORE ↗</span></div>
-          <div class="object-glow" aria-hidden="true"></div>
-          <div class="floating-object"><img src="assets/studio-3d-visual.png" alt="체스 오브젝트 사이에 떠 있는 캐릭터 3D 장면" loading="lazy"></div>
-        </div>
-      </section>
-
-      <section class="contact-section" id="contact" aria-labelledby="contact-title">
-        <p class="small-label">HAVE A PROJECT IN MIND?</p>
-        <h2 id="contact-title" class="reveal-on-scroll">다음 장면은,<br><em>함께.</em></h2>
-        <a class="contact-link reveal-on-scroll" href="mailto:aramaram0217@gmail.com">aramaram0217@gmail.com <span>↗</span></a>
-        <div class="contact-footer"><span>외주 및 협업 문의를 기다립니다.</span><span>DISCORD / aramanim</span></div>
-      </section>
-    </main>
-
-    <footer class="site-footer"><span>© 2026 ARAM. ALL RIGHTS RESERVED.</span><a href="#home">BACK TO TOP ↑</a><a class="admin-link" href="/admin/" aria-label="관리자 페이지">·</a></footer>
-  </div>
+      </div>
+    </section>
+    <section class="contact-section page-grid" id="contact" aria-labelledby="contact-title">
+      <div class="contact-top"><p class="eyebrow">PROJECT ENQUIRIES</p><p>외주 및 협업 문의</p></div>
+      <h2 id="contact-title" class="reveal"><a href="mailto:aramaram0217@gmail.com">Contact<span>↗</span></a></h2>
+      <div class="contact-details"><a class="email-link" href="mailto:aramaram0217@gmail.com">aramaram0217@gmail.com</a><button type="button" class="discord-copy" aria-label="디스코드 아이디 aramanim 복사"><span>DISCORD</span> aramanim <span class="copy-label">COPY ↗</span></button><span class="copy-status" role="status" aria-live="polite"></span></div>
+    </section>
+  </main>
+  <footer class="site-footer page-grid"><a href="#home" class="footer-brand">ARAM STUDIO</a><span>© 2026</span><a href="#home">BACK TO TOP ↑</a><a class="admin-link" href="/admin/" aria-label="관리자 페이지">·</a></footer>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
   <script src="script.js"></script>
 </body>

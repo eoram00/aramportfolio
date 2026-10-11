@@ -1,75 +1,66 @@
 const portfolioList = document.getElementById("portfolio-list");
-
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const categoryLabels = {
-  rblx_thumbnail: "GAME THUMBNAIL",
-  animation: "ANIMATION",
-  "애니메이션": "ANIMATION",
-  "logo design": "IDENTITY DESIGN",
-  "로고디자인": "IDENTITY DESIGN",
-  Rovelyz: "CONTENT THUMBNAIL"
+  rblx_thumbnail: "GAME THUMBNAIL", animation: "ANIMATION", "애니메이션": "ANIMATION",
+  "logo design": "IDENTITY DESIGN", "로고디자인": "IDENTITY DESIGN", Rovelyz: "CONTENT THUMBNAIL"
 };
-
 function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   })[character]);
 }
-
 function safeLink(value) {
   try {
-    const url = new URL(String(value), window.location.href);
-    return ["https:", "http:", "mailto:"].includes(url.protocol) ? escapeHtml(url.href) : "#contact";
-  } catch {
-    return "#contact";
-  }
+    const url = new URL(String(value || "#contact"), window.location.href);
+    return ["https:", "http:", "mailto:"].includes(url.protocol) ? url.href : "#contact";
+  } catch { return "#contact"; }
 }
-
+let revealObserver;
+if ("IntersectionObserver" in window && !reduceMotion.matches) {
+  document.documentElement.classList.add("js-motion");
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: .08 });
+  document.querySelectorAll(".reveal").forEach(element => revealObserver.observe(element));
+}
 function renderPortfolio(items) {
+  document.querySelectorAll("[data-work-count]").forEach(label => {
+    label.textContent = String(items.length).padStart(2, "0");
+  });
   if (!items.length) {
-    portfolioList.innerHTML = '<p class="empty-state">곧 새로운 작업을 소개할게요.</p>';
+    portfolioList.innerHTML = '<p class="empty-state">등록된 작업이 없습니다.</p>';
     return;
   }
-
   portfolioList.innerHTML = items.map((item, index) => {
     const number = String(index + 1).padStart(2, "0");
     const title = escapeHtml(item.title);
     const category = escapeHtml(categoryLabels[item.category] || item.category);
-    const description = escapeHtml(item.description);
-    const image = escapeHtml(item.image);
-    const year = escapeHtml(item.year);
     const link = safeLink(item.link);
-    const linkLabel = link.startsWith("mailto:") ? "작업 문의하기" : link === "#contact" ? "문의하기" : "작업 보러가기";
-    return `
-      <article class="portfolio-card tone-${(index % 5) + 1} card-enter">
-        <div class="card-inner">
-          <div class="card-face card-front">
-            <button class="card-open" type="button" aria-expanded="false" aria-controls="card-back-${index}" aria-label="${title} 자세히 보기">
-              <img src="${image}" alt="${title} 작업 이미지" loading="lazy">
-              <span class="card-image-shade"></span>
-              <span class="card-front-top"><span>${number} / ${category}</span><span class="card-plus">↗</span></span>
-              <span class="card-front-bottom"><strong>${title}</strong><span>클릭해서 펼치기 ↗</span></span>
-            </button>
-          </div>
-          <div class="card-face card-back" id="card-back-${index}" inert>
-            <div class="card-back-top"><span>${number} / ${category}</span><button class="card-close" type="button" aria-label="${title} 카드 닫기">↶</button></div>
-            <div class="card-back-content"><span class="card-year">SELECTED WORK / ${year}</span><h3>${title}</h3><p>${description}</p></div>
-            <a class="card-project-link" href="${link}" ${link.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>${linkLabel} <span>↗</span></a>
-          </div>
+    const linkLabel = link.startsWith("mailto:") ? "작업 문의하기" : "작업 보러가기";
+    const isLogo = ["logo design", "로고디자인"].includes(item.category);
+    return `<article class="project${isLogo ? " is-logo" : ""}">
+      <div class="project-number"><span>(${number})</span><span>${escapeHtml(item.year)}</span></div>
+      <div class="card-stage"><div class="card-inner">
+        <div class="card-face card-front">
+          <button class="card-open" type="button" aria-expanded="false" aria-controls="card-back-${index}" aria-label="${title} 자세히 보기">
+            <img src="${escapeHtml(item.image)}" alt="${title} 작업 이미지" loading="lazy" decoding="async">
+            <span class="card-action" aria-hidden="true">+</span>
+          </button>
         </div>
-      </article>`;
+        <div class="card-face card-back" id="card-back-${index}" inert>
+          <div class="card-back-top"><span>${number} / ${category}</span><button class="card-close" type="button" aria-label="${title} 카드 닫기">×</button></div>
+          <div class="card-copy"><h4>${title}</h4><p>${escapeHtml(item.description)}</p></div>
+          <a class="project-link" href="${escapeHtml(link)}" ${link.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>${linkLabel}<span aria-hidden="true">↗</span></a>
+        </div>
+      </div></div>
+      <div class="project-caption"><h3>${title}</h3><span>${category}</span></div>
+    </article>`;
   }).join("");
-
-  const cards = [...portfolioList.querySelectorAll(".portfolio-card")];
-  if (document.documentElement.classList.contains("js-motion") && "IntersectionObserver" in window) {
-    const cardObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        cardObserver.unobserve(entry.target);
-      });
-    }, { threshold: .08 });
-    cards.forEach((card) => cardObserver.observe(card));
-  }
+  const cards = [...portfolioList.querySelectorAll(".project")];
   function setCardOpen(card, open) {
     const front = card.querySelector(".card-open");
     const back = card.querySelector(".card-back");
@@ -78,145 +69,95 @@ function renderPortfolio(items) {
     front.inert = open;
     back.inert = !open;
   }
-
-  cards.forEach((card) => {
+  cards.forEach(card => {
+    revealObserver?.observe(card);
     const front = card.querySelector(".card-open");
     const close = card.querySelector(".card-close");
+    let focusTimer;
     front.addEventListener("click", () => {
-      cards.forEach((other) => setCardOpen(other, other === card));
-      window.setTimeout(() => close.focus({ preventScroll: true }), 380);
+      cards.forEach(other => setCardOpen(other, other === card));
+      clearTimeout(focusTimer);
+      focusTimer = setTimeout(() => {
+        if (card.classList.contains("is-flipped")) close.focus({ preventScroll: true });
+      }, reduceMotion.matches ? 0 : 400);
     });
     close.addEventListener("click", () => {
       setCardOpen(card, false);
-      window.setTimeout(() => front.focus({ preventScroll: true }), 380);
+      clearTimeout(focusTimer);
+      front.focus({ preventScroll: true });
     });
   });
 }
-
-document.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape") return;
-  const openCard = portfolioList.querySelector(".portfolio-card.is-flipped");
-  if (openCard) openCard.querySelector(".card-close").click();
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") portfolioList.querySelector(".is-flipped .card-close")?.click();
 });
-
 async function loadPortfolio() {
   try {
     const response = await fetch("data/portfolio.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Portfolio could not be loaded");
+    if (!response.ok) throw new Error("Portfolio unavailable");
     const payload = await response.json();
-    renderPortfolio(Array.isArray(payload) ? payload : payload.items || []);
+    const items = Array.isArray(payload) ? payload : payload.items;
+    if (!Array.isArray(items)) throw new Error("Invalid portfolio data");
+    renderPortfolio(items);
   } catch {
     portfolioList.innerHTML = '<p class="empty-state">작업을 불러오지 못했습니다. 잠시 후 다시 확인해주세요.</p>';
   }
 }
-
-function initInteractions() {
-  const hero = document.querySelector(".hero-layout");
-  const stage = document.querySelector(".playground-stage");
-  const scene = document.querySelector(".aram-scene");
-  const model = document.querySelector(".aram-model");
-  const objectStage = document.querySelector(".object-stage");
-  const floatingObject = document.querySelector(".floating-object");
-  const progress = document.querySelector(".scroll-progress");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (reduceMotion.matches) model.removeAttribute("auto-rotate");
-  function sizeModel() {
-    if (!model.loaded || typeof model.getDimensions !== "function") return;
-    const dimensions = model.getDimensions();
-    const bounds = model.getBoundingClientRect();
-    if (!bounds.width || !bounds.height) return;
-    // A padded bounding sphere fits the entire object at every orbit angle.
-    const radius = Math.hypot(dimensions.x, dimensions.y, dimensions.z) / 2;
-    const verticalHalfAngle = Math.PI / 12;
-    const limitingAngle = Math.atan(Math.tan(verticalHalfAngle) * Math.min(1, bounds.width / bounds.height));
-    const distance = radius / Math.sin(limitingAngle) * 1.12;
-    model.setAttribute("camera-orbit", `-15deg 82deg ${distance.toFixed(3)}m`);
-    model.dataset.framed = "true";
-  }
-  model.addEventListener("load", sizeModel);
-  customElements.whenDefined("model-viewer").then(sizeModel);
-  new ResizeObserver(sizeModel).observe(model);
-
-  let scrollFrame = 0;
-  function updateScrollProgress() {
-    scrollFrame = 0;
-    const travel = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.setProperty("--scroll-progress", `${travel > 0 ? (window.scrollY / travel) * 100 : 0}%`);
-    if (reduceMotion.matches) return;
-    const opening = Math.min(1, window.scrollY / window.innerHeight);
-    hero.style.setProperty("--hero-drift", `${opening * 75}px`);
-    document.body.style.setProperty("--atmosphere-y", `${Math.sin(window.scrollY / 1500) * 65}px`);
-    const stageBounds = stage.getBoundingClientRect();
-    stage.style.setProperty("--light-scale", String(1 + Math.min(.35, Math.max(0, -stageBounds.top / stageBounds.height) * .35)));
-  }
-  updateScrollProgress();
-  window.addEventListener("scroll", () => {
-    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollProgress);
-  }, { passive: true });
-  window.addEventListener("resize", updateScrollProgress);
-
-  hero.addEventListener("pointermove", (event) => {
-    if (reduceMotion.matches || event.pointerType !== "mouse") return;
-    const bounds = hero.getBoundingClientRect();
-    hero.style.setProperty("--hero-x", `${event.clientX - bounds.left}px`);
-    hero.style.setProperty("--hero-y", `${event.clientY - bounds.top}px`);
-  });
-
-  stage.addEventListener("pointermove", (event) => {
-    if (reduceMotion.matches || event.pointerType !== "mouse") return;
-    const bounds = stage.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width - .5;
-    const y = (event.clientY - bounds.top) / bounds.height - .5;
-    stage.style.setProperty("--grid-x", `${x * 14}px`);
-    stage.style.setProperty("--grid-y", `${y * 14}px`);
-    scene.style.setProperty("--move-x", `${x * 16}px`);
-    scene.style.setProperty("--move-y", `${y * 12}px`);
-  });
-  stage.addEventListener("pointerleave", () => {
-    ["--grid-x", "--grid-y"].forEach((name) => stage.style.removeProperty(name));
-    ["--move-x", "--move-y"].forEach((name) => scene.style.removeProperty(name));
-  });
-
-  objectStage.addEventListener("pointermove", (event) => {
-    if (reduceMotion.matches || event.pointerType !== "mouse") return;
-    const bounds = objectStage.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width - .5;
-    const y = (event.clientY - bounds.top) / bounds.height - .5;
-    floatingObject.style.setProperty("--object-x", `${x * 20}px`);
-    floatingObject.style.setProperty("--object-y", `${y * 14}px`);
-  });
-  objectStage.addEventListener("pointerleave", () => {
-    floatingObject.style.removeProperty("--object-x");
-    floatingObject.style.removeProperty("--object-y");
-  });
-
-  stage.querySelectorAll(".tone-swatch").forEach((button) => {
-    button.addEventListener("click", () => {
-      stage.dataset.tone = button.dataset.tone;
-      stage.querySelectorAll(".tone-swatch").forEach((swatch) => {
-        const active = swatch === button;
-        swatch.classList.toggle("is-active", active);
-        swatch.setAttribute("aria-pressed", String(active));
-      });
-    });
-  });
-
-  reduceMotion.addEventListener("change", () => {
-    model.toggleAttribute("auto-rotate", !reduceMotion.matches);
-  });
-
-  if ("IntersectionObserver" in window && !reduceMotion.matches) {
-    document.documentElement.classList.add("js-motion");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: .12 });
-    document.querySelectorAll(".reveal-on-scroll").forEach((item) => observer.observe(item));
-  }
+const model = document.querySelector(".aram-model");
+const motionToggle = document.querySelector(".motion-toggle");
+let paused = reduceMotion.matches;
+function updateMotion() {
+  model.toggleAttribute("auto-rotate", !paused);
+  motionToggle.setAttribute("aria-pressed", String(paused));
+  motionToggle.setAttribute("aria-label", paused ? "자동 회전 재생" : "자동 회전 일시정지");
+  motionToggle.textContent = paused ? "PLAY ▷" : "PAUSE Ⅱ";
 }
-
-initInteractions();
+motionToggle.addEventListener("click", () => { paused = !paused; updateMotion(); });
+reduceMotion.addEventListener("change", () => {
+  paused = reduceMotion.matches;
+  updateMotion();
+  if (reduceMotion.matches) {
+    revealObserver?.disconnect();
+    document.documentElement.classList.remove("js-motion");
+  }
+});
+updateMotion();
+function sizeModel() {
+  if (!model.loaded || typeof model.getDimensions !== "function") return;
+  const dimensions = model.getDimensions();
+  const bounds = model.getBoundingClientRect();
+  if (!bounds.width || !bounds.height) return;
+  // Fit a padded bounding sphere so every rotation stays inside the canvas.
+  const radius = Math.hypot(dimensions.x, dimensions.y, dimensions.z) / 2;
+  const limitingAngle = Math.atan(Math.tan(Math.PI / 12) * Math.min(1, bounds.width / bounds.height));
+  const distance = radius / Math.sin(limitingAngle) * 1.12;
+  model.setAttribute("camera-orbit", `-15deg 82deg ${distance.toFixed(3)}m`);
+  model.dataset.framed = "true";
+}
+model.addEventListener("load", sizeModel);
+customElements.whenDefined("model-viewer").then(sizeModel);
+new ResizeObserver(sizeModel).observe(model);
+const hero = document.querySelector(".hero");
+const progress = document.querySelector(".reading-progress");
+let scrollFrame;
+function updateScroll() {
+  scrollFrame = 0;
+  const travel = document.documentElement.scrollHeight - innerHeight;
+  progress.style.setProperty("--progress", String(travel > 0 ? Math.min(1, scrollY / travel) : 0));
+  hero.style.setProperty("--title-drift", reduceMotion.matches ? "0px" : `${Math.min(scrollY, hero.offsetHeight) * .12}px`);
+}
+window.addEventListener("scroll", () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
+}, { passive: true });
+window.addEventListener("resize", updateScroll);
+updateScroll();
+document.querySelector(".discord-copy").addEventListener("click", async () => {
+  const status = document.querySelector(".copy-status");
+  try {
+    await navigator.clipboard.writeText("aramanim");
+    status.textContent = "디스코드 아이디 aramanim을 복사했습니다.";
+  } catch {
+    status.textContent = "디스코드 아이디: aramanim — 선택해서 복사해주세요.";
+  }
+});
 loadPortfolio();
