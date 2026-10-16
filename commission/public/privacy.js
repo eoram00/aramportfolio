@@ -1,5 +1,6 @@
 fetch('/api/privacy',{credentials:'omit'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(p=>{
  document.querySelector('#operator').textContent=p.operator;
+ document.querySelector('#hosting-name').textContent=p.hostingName||'Vercel';
  const contact=document.querySelector('#privacy-contact');contact.textContent=p.contact;contact.href='mailto:'+p.contact;
  document.querySelector('#policy-version').textContent=p.version;
  document.querySelector('#retention-days').textContent=p.retentionDays;

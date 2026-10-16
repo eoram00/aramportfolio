@@ -1,0 +1,33 @@
+{
+  "version": "2026-10-17.2-netlify",
+  "operator": "ARAM STUDIO",
+  "contact": "aramaram0217@gmail.com",
+  "hostingName": "Netlify",
+  "retentionDays": 90,
+  "minAge": 14,
+  "reviewed": false,
+  "transfers": [
+    {
+      "recipient": "Discord Inc.",
+      "country": "미국",
+      "purpose": "지정한 포럼에 신청서·대화·동의 기록 저장 및 운영자 알림",
+      "items": "로그인 계정 식별자, 표시 이름, 신청 내용, 대화, 동의 버전·시각",
+      "timing": "신청·대화 전송 시 HTTPS로 전송",
+      "retention": "사이트 상담 기록은 접수 후 90일. 만료 후 다음 일일 정리에서 게시글·대화를 삭제합니다. 제공자의 잔여 보안·법적 보관은 Discord 보관 정책에 따릅니다.",
+      "contact": "privacy@discord.com",
+      "policyUrl": "https://discord.com/privacy",
+      "verified": true
+    },
+    {
+      "recipient": "Netlify, Inc.",
+      "country": "미국 — 신청 API 실행 지역: Ohio, US East(CMH)",
+      "purpose": "사이트 제공, 로그인·신청·상담 API 처리, 예약 삭제 실행 및 서비스 보안",
+      "items": "IP 주소·요청 정보, 로그인 계정 식별자·표시 이름, 신청 내용·대화의 일시 처리",
+      "timing": "접속 및 API 요청 시 HTTPS로 전송",
+      "retention": "신청서 본문·대화는 이 사이트의 별도 호스팅 데이터베이스에 저장하지 않고 Discord로 전달합니다. Free 플랜 함수 로그는 24시간입니다. 제공자의 별도 보안·법적 기록은 목적 달성과 법적 보존 의무에 필요한 기간까지 Netlify 정책에 따라 보관될 수 있습니다.",
+      "contact": "privacy@netlify.com",
+      "policyUrl": "https://www.netlify.com/privacy/",
+      "verified": true
+    }
+  ]
+}

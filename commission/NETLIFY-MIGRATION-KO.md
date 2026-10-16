@@ -33,3 +33,13 @@ Netlify 공식 안내는 무료 플랜의 상업용 프로젝트를 허용합니
 - 최종 도메인 확인 후 Discord Redirects 추가
 - Google OAuth 앱·클라이언트 설정 및 비밀값 등록
 - 실제 개인정보 처리 조건 확인 및 공개 접수 활성화
+
+## 2026-10-17 실제 배포 상태
+- Netlify 프로젝트: aram-requests (ID fddcabd9-be79-4670-a1f0-2c8d4e954fdd)
+- 새 주소: https://aram-requests.netlify.app
+- Base directory commission, publish public, functions netlify/functions로 첫 배포 성공
+- Functions 3개 배포 확인, cleanup-daily Scheduled 상태 확인
+- 실행 지역 CMH (Ohio, US East) 확인
+- .env.netlify는 로컬 전용 가져오기 파일이며 Git에 포함하지 않음
+- 비밀값 입력과 새 OAuth 주소 등록 후 재배포·로그인 확인 필요
+- 공개/포트폴리오 링크 전환과 개인정보 검토 완료는 별도 확인 필요

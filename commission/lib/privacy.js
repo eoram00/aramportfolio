@@ -1,5 +1,5 @@
 const c=require('./core');
-const settings=require('../privacy-settings.json');
+const settings=(()=>{try{if(new URL(process.env.APP_URL).hostname.endsWith('.netlify.app'))return require('../privacy-settings.netlify.json');}catch{}return require('../privacy-settings.json');})();
 const DAY=86400000;
 function notice(){return {...settings,reviewed:settings.reviewed===true&&settings.transfers.every(t=>t.verified===true)};}
 function ready(){return notice().reviewed&&typeof process.env.CRON_SECRET==='string'&&process.env.CRON_SECRET.length>=32;}
