@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # The public site origin is not a credential. Keep scanning all actual secrets.
+  SECRETS_SCAN_OMIT_KEYS = "APP_URL"
 
 [functions]
   node_bundler = "esbuild"
