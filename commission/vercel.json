@@ -36,5 +36,12 @@
       "path": "/api/privacy/cleanup",
       "schedule": "0 18 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://aram-requests.netlify.app/:path*",
+      "permanent": false
+    }
   ]
 }
