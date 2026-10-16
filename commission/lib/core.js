@@ -1,0 +1,22 @@
+const crypto = require('node:crypto');
+const keys = ['APP_URL','DISCORD_CLIENT_ID','DISCORD_CLIENT_SECRET','DISCORD_BOT_TOKEN','DISCORD_GUILD_ID','DISCORD_CATEGORY_ID','DISCORD_OWNER_IDS','SESSION_SECRET'];
+class HttpError extends Error { constructor(status,message){ super(message); this.status=status; } }
+function ready(){return keys.every(k=>process.env[k]) && process.env.SESSION_SECRET.length>=32;}
+function config(){if(!ready())throw new HttpError(503,'아직 접수 준비 중입니다. 잠시 후 다시 방문해주세요.');const origin=new URL(process.env.APP_URL).origin;if(!origin.startsWith('https://')&&!/^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(origin))throw new HttpError(503,'사이트 주소 설정을 확인해주세요.');return {origin,owners:process.env.DISCORD_OWNER_IDS.split(',').map(x=>x.trim()).filter(x=>/^\d{17,20}$/.test(x))};}
+function sign(payload){const text=Buffer.from(JSON.stringify(payload)).toString('base64url');return text+'.'+crypto.createHmac('sha256',process.env.SESSION_SECRET).update(text).digest('base64url');}
+function verify(value){try{const [text,mac,...rest]=String(value||'').split('.');if(rest.length||!text||!mac)return null;const expected=crypto.createHmac('sha256',process.env.SESSION_SECRET).update(text).digest();const actual=Buffer.from(mac,'base64url');if(expected.length!==actual.length||!crypto.timingSafeEqual(expected,actual))return null;return JSON.parse(Buffer.from(text,'base64url').toString());}catch{return null;}}
+function cookies(req){return Object.fromEntries((req.headers.cookie||'').split(';').map(x=>x.trim().split(/=(.*)/s)).filter(x=>x[0]).map(x=>[x[0],x[1]]));}
+function cookie(name,value,seconds){const secure=config().origin.startsWith('https:')?'; Secure':'';return `${name}=${value}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${seconds}${secure}`;}
+function session(req){const s=verify(cookies(req).aram_session);if(!s||s.exp<Date.now()||!/^\d{17,20}$/.test(s.id))throw new HttpError(401,'디스코드로 로그인해주세요.');return {...s,staff:config().owners.includes(s.id)};}
+function csrf(req,s){if(req.headers.origin!==config().origin||req.headers['x-csrf-token']!==s.csrf)throw new HttpError(403,'요청을 확인할 수 없습니다. 새로고침 후 다시 시도해주세요.');}
+async function discord(path,method='GET',body){const r=await fetch('https://discord.com/api/v10'+path,{method,headers:{Authorization:'Bot '+process.env.DISCORD_BOT_TOKEN,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(12000)});if(!r.ok)throw new HttpError(r.status===429?429:502,r.status===429?'요청이 많습니다. 잠시 후 다시 시도해주세요.':'디스코드 연결을 완료하지 못했습니다. 잠시 후 다시 시도해주세요.');return r.status===204?null:r.json();}
+const marker='ARAM_REQUEST:';
+function metadata(channel){if(channel.guild_id&&channel.guild_id!==process.env.DISCORD_GUILD_ID)return null;if(channel.parent_id!==process.env.DISCORD_CATEGORY_ID||!channel.topic?.startsWith(marker))return null;const m=verify(channel.topic.slice(marker.length));return m&&m.owner&&['pending','accepted','rejected','cancelled'].includes(m.status)?m:null;}
+function topic(meta){return marker+sign(meta);}
+function authorize(s,m){if(!s.staff&&m.owner!==s.id)throw new HttpError(404,'신청을 찾을 수 없습니다.');}
+async function getRequest(id,s){if(!/^\d{17,20}$/.test(id))throw new HttpError(404,'신청을 찾을 수 없습니다.');const channel=await discord('/channels/'+id);const meta=metadata(channel);if(!meta)throw new HttpError(404,'신청을 찾을 수 없습니다.');authorize(s,meta);return {channel,meta};}
+async function body(req){if(req.body&&typeof req.body==='object')return req.body;let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>16000)throw new HttpError(413,'내용이 너무 깁니다.');}try{return JSON.parse(raw||'{}');}catch{throw new HttpError(400,'입력 내용을 확인해주세요.');}}
+function text(value,min,max,label){if(typeof value!=='string'||value.trim().length<min||value.trim().length>max)throw new HttpError(400,`${label} 항목을 확인해주세요.`);return value.trim();}
+async function message(channelId,payload){return discord('/channels/'+channelId+'/messages','POST',{...payload,allowed_mentions:{parse:[],...(payload.allowed_mentions||{})}});}
+function statusAllowed(current,next,staff){return current==='pending'&&(staff?['accepted','rejected','cancelled']:['cancelled']).includes(next)||staff&&current==='accepted'&&next==='cancelled';}
+module.exports={HttpError,ready,config,sign,verify,cookies,cookie,session,csrf,discord,metadata,topic,authorize,getRequest,body,text,message,statusAllowed};

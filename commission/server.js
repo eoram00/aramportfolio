@@ -1,0 +1,4 @@
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const handler=require('./api/index');
+const publicRoot=path.resolve(__dirname,'public');
+http.createServer((req,res)=>{const url=new URL(req.url,'http://localhost');if(url.pathname.startsWith('/api/'))return handler(req,res);const target=path.resolve(publicRoot,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));if(!target.startsWith(publicRoot+path.sep)){res.writeHead(403);return res.end();}fs.readFile(target,(e,b)=>{res.writeHead(e?404:200,{'Content-Type':({'.html':'text/html; charset=utf-8','.css':'text/css','.js':'application/javascript','.png':'image/png'})[path.extname(target)]||'application/octet-stream','X-Content-Type-Options':'nosniff'});res.end(e?'Not found':b);});}).listen(4180,'127.0.0.1',()=>console.log('ARAM commission site: http://127.0.0.1:4180'));
