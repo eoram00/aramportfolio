@@ -10,6 +10,9 @@ The forum thread name contains a signed owner hash, time and state. The starter 
 
 Requesters see only their own requests. They can cancel pending requests. Configured Discord owners can accept, reject, cancel, and send messages through the management page linked in the post. Owner privilege never comes from a Google email address. Accounts are not automatically linked across providers.
 
-Messages are persisted in Discord; the website shows the latest 100 website message embeds. Human messages typed directly into Discord are not relayed to the website. A Discord DM is attempted for Discord requesters; Google requesters use the website conversation. DM failures do not discard stored messages. There are no payments, uploads, or server-side reference URL fetching.
+Messages are persisted in Discord; the website shows the latest 100 website message embeds. Human messages typed directly into Discord are not relayed to the website. Replies are read in the website conversation. Personal DMs are not copied, which keeps request records in one managed forum post. There are no payments, uploads, or server-side reference URL fetching.
 
 The portfolio CTA is configured through site/data/commission.json once a real independent site URL exists. Before that it links to the local preview only and stays hidden in production. See PORTFOLIO-INTEGRATION.md.
+
+## Privacy and retention
+See PRIVACY-OPERATIONS-KO.md. Privacy notices are published as a draft; login and intake stay disabled until privacy-settings.json is verified and CRON_SECRET is configured. Request records expire after 90 days, are blocked from access at expiry and deleted by daily authenticated cleanup. Each request can also be deleted by its owner or staff. Cancellation does not delete records.
