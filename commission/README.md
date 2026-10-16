@@ -4,7 +4,7 @@ Independent commission intake, with Discord or Google OAuth, a flat editorial fo
 
 Deploy `commission` as a separate Vercel project with Other framework and public output. Set environment values from .env.example in hosting secrets; never publish .env. Register /api/auth/discord/callback and /api/auth/google/callback with the respective providers. Only identify (Discord) and openid/email/profile (Google) are requested.
 
-Requests become posts inside a private Discord forum. The server rejects a forum whose permission overwrites expose it beyond the bot and configured owners (Discord Administrators retain access). Configure DISCORD_FORUM_ID rather than a category. No webhook or gateway process is required.
+Requests become posts inside a configured Discord forum. The server rejects a forum whose permission overwrites expose it beyond the bot and configured owners (Discord Administrators retain access). Configure DISCORD_FORUM_ID rather than a category. No webhook or gateway process is required.
 
 The forum thread name contains a signed owner hash, time and state. The starter message retains signed full metadata and the brief. Do not manually rename or delete request posts. Keep SESSION_SECRET stable. Active and archived posts are listed; metadata signature is checked before returning records. No temporary server-file database is used. This design is intended for low-volume intake and is subject to Discord quotas/rate limits. Concurrent submissions/state changes can race; a production system with stronger concurrency guarantees should use a transactional datastore.
 
