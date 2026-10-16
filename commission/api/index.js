@@ -38,8 +38,7 @@ module.exports=async function handler(req,res){
    const parent=await forum.validateForum(bot.id,owners);
    const meta={owner:s.id,bot:bot.id,title,kind,status:'pending',created:Date.now(),consent:{version:privacy.notice().version,acceptedAt:Date.now(),collection:true,transfer:true,age14:true}};
    const initial={content:owners.map(id=>'<@'+id+'>').join(' ')+' 새 작업 신청',allowed_mentions:{parse:[],users:owners},embeds:[{title,description,color:11590895,fields:[{name:'신청자',value:s.name},{name:'종류',value:kind,inline:true},{name:'예산',value:budget,inline:true},{name:'희망 일정',value:deadline,inline:true},...(reference?[{name:'참고 링크',value:reference}]:[])],footer:{text:'ARAM · WEBSITE REQUEST'},timestamp:new Date().toISOString()},{description:'접수 관리 기록',footer:{text:'ARAM_META:'+c.sign(meta)}}]};
-   const tags=parent.flags&16?parent.available_tags.filter(tag=>!tag.moderated).slice(0,1).map(tag=>tag.id):[];
-   if((parent.flags&16)&&!tags.length)throw new c.HttpError(503,'포럼의 필수 태그 설정을 확인해주세요.');
+   const tags=forum.tagsFor(parent,kind);
    const channel=await c.discord('/channels/'+parent.id+'/threads','POST',{name:forum.threadName(meta),auto_archive_duration:10080,applied_tags:tags,message:initial});
    await c.message(channel.id,{content:'접수 관리 화면에서 수락·거부·취소·연락을 진행해주세요.',components:[{type:1,components:[{type:2,style:5,label:'신청 관리 · 연락하기',url:c.config().origin+'/?request='+channel.id}]}]});
    return json(res,201,{id:channel.id});

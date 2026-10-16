@@ -9,4 +9,5 @@ async function list(){const active=await c.discord('/guilds/'+process.env.DISCOR
 function owns(s,m){return s.staff||m.ownerKey===ownerKey(s.id);}
 async function get(id,s){if(!/^\d{17,20}$/.test(id))throw new c.HttpError(404,'신청을 찾을 수 없습니다.');const channel=await c.discord('/channels/'+id),short=decode(channel);if(!short||!owns(s,short))throw new c.HttpError(404,'신청을 찾을 수 없습니다.');const initial=await c.discord('/channels/'+id+'/messages/'+id);const meta=c.verify(initial.embeds?.[1]?.footer?.text?.replace(/^ARAM_META:/,''));if(!meta||ownerKey(meta.owner)!==short.ownerKey||initial.author?.id!==meta.bot)throw new c.HttpError(404,'신청 정보를 확인할 수 없습니다.');return {channel,meta:{...meta,status:short.status,detail:id},initial};}
 async function validateForum(botId,owners){const forum=await c.discord('/channels/'+process.env.DISCORD_FORUM_ID);if(forum.guild_id!==process.env.DISCORD_GUILD_ID||forum.type!==15)throw new c.HttpError(503,'신청 포럼 설정을 확인해주세요.');return forum;}
-module.exports={ownerKey,threadName,decode,list,owns,get,validateForum};
+function tagsFor(parent,kind){const tag=(parent.available_tags||[]).find(t=>t.name.trim()===kind&&!t.moderated);if(!tag)throw new c.HttpError(503,'포럼의 '+kind+' 태그 설정을 확인해주세요.');return [tag.id];}
+module.exports={tagsFor,ownerKey,threadName,decode,list,owns,get,validateForum};
