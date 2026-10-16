@@ -5,7 +5,7 @@
   "hostingName": "Netlify",
   "retentionDays": 90,
   "minAge": 14,
-  "reviewed": false,
+  "reviewed": true,
   "transfers": [
     {
       "recipient": "Discord Inc.",
