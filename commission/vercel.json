@@ -30,5 +30,11 @@
     }
   },
   "framework": null,
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "crons": [
+    {
+      "path": "/api/privacy/cleanup",
+      "schedule": "0 18 * * *"
+    }
+  ]
 }
