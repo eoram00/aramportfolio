@@ -1,30 +1,15 @@
-# Separate ARAM commission site
+# ARAM Requests
 
-Deploy this `commission` directory as its own Vercel project (Node 22+). Keep the existing portfolio project rooted at `site`. No packages are required.
+Independent commission intake, with Discord or Google OAuth, a flat editorial form and owner management. No external packages. Run `npm start` from this folder (Node 22+); preview http://127.0.0.1:4180. Without environment configuration, reception is disabled. See SETUP-KO.md for setup.
 
-## Discord setup
+Deploy `commission` as a separate Vercel project with Other framework and public output. Set environment values from .env.example in hosting secrets; never publish .env. Register /api/auth/discord/callback and /api/auth/google/callback with the respective providers. Only identify (Discord) and openid/email/profile (Google) are requested.
 
-1. Create an application at https://discord.com/developers/applications and add a bot.
-2. In your Discord server, create a category for requests. Enable Developer Mode and copy the server ID, category ID and your own user ID.
-3. Install the bot in this server with View Channels, Manage Channels, Send Messages, Embed Links and Read Message History. Do not grant Administrator. The application creates private channels with an explicit deny for everyone and allows only the bot and configured owner IDs. Server administrators can also access them through Discord's permission model.
-4. Add your new site's exact `https://YOUR-SITE/api/auth/callback` address to OAuth2 Redirects. Login requests only the `identify` scope.
-5. Set the values from `.env.example` in the new Vercel project's environment settings. The client secret, bot token and session secret are secrets: never put them in Git or chat. `DISCORD_OWNER_IDS` is one or more numeric owner IDs separated by commas. Keep SESSION_SECRET stable: it signs sessions AND request channel metadata.
-6. Deploy/redeploy and confirm the setup banner disappears. Use two accounts to check requester/owner separation before sharing the application link.
+Requests become posts inside a private Discord forum. The server rejects a forum whose permission overwrites expose it beyond the bot and configured owners (Discord Administrators retain access). Configure DISCORD_FORUM_ID rather than a category. No webhook or gateway process is required.
 
-## Local preview
+The forum thread name contains a signed owner hash, time and state. The starter message retains signed full metadata and the brief. Do not manually rename or delete request posts. Keep SESSION_SECRET stable. Active and archived posts are listed; metadata signature is checked before returning records. No temporary server-file database is used. This design is intended for low-volume intake and is subject to Discord quotas/rate limits. Concurrent submissions/state changes can race; a production system with stronger concurrency guarantees should use a transactional datastore.
 
-Run `npm start` in this directory. The site opens at http://127.0.0.1:4180. Without credentials the form can be explored but reception is disabled. Copy `.env.example` to `.env` for local configuration; `.env` is ignored by Git. Register the local callback separately if testing OAuth locally.
+Requesters see only their own requests. They can cancel pending requests. Configured Discord owners can accept, reject, cancel, and send messages through the management page linked in the post. Owner privilege never comes from a Google email address. Accounts are not automatically linked across providers.
 
-## What users can do
+Messages are persisted in Discord; the website shows the latest 100 website message embeds. Human messages typed directly into Discord are not relayed to the website. A Discord DM is attempted for Discord requesters; Google requesters use the website conversation. DM failures do not discard stored messages. There are no payments, uploads, or server-side reference URL fetching.
 
-- Requester: apply after Discord login, view only their own requests, send messages, cancel while pending.
-- Configured owner: see all requests, accept/reject/cancel, send messages. Open the management link posted in each Discord channel to access these controls.
-- The bot attempts DM notifications for owner replies and status changes. The canonical status and messages remain available on the website when DMs are blocked. Discord channel conversation is retained, and the website shows the latest 100 website message embeds. Direct human messages typed inside Discord are not relayed to the website.
-
-## Storage and operational limits
-
-Discord private channels are the datastore. Request ownership and status are signed in the channel topic; the original application is kept as a referenced bot message. Deleting channels/messages loses those records, and rotating SESSION_SECRET makes old metadata unreadable. Back up before changing these. Do not manually edit signed topics.
-
-Two pending/accepted requests per user are allowed. This is a lightweight low-volume intake, not a distributed booking or payment system. Simultaneous submissions across server instances can race, so review duplicate requests. Discord channel/category quotas and rate limits still apply; archive/retention policy must be agreed before a public launch. No uploads or payment collection are implemented. Reference links are plain text and are never fetched by the server.
-
-The portfolio CTA must point to the real new project URL after that URL has been created. Do not link to a guessed hostname. An `apply-link.patch` integration snippet is supplied in PORTFOLIO-INTEGRATION.md.
+The portfolio CTA is configured through site/data/commission.json once a real independent site URL exists. Before that it links to the local preview only and stays hidden in production. See PORTFOLIO-INTEGRATION.md.

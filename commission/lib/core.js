@@ -1,13 +1,13 @@
 const crypto = require('node:crypto');
-const keys = ['APP_URL','DISCORD_CLIENT_ID','DISCORD_CLIENT_SECRET','DISCORD_BOT_TOKEN','DISCORD_GUILD_ID','DISCORD_CATEGORY_ID','DISCORD_OWNER_IDS','SESSION_SECRET'];
+const keys = ['APP_URL','DISCORD_BOT_TOKEN','DISCORD_GUILD_ID','DISCORD_FORUM_ID','DISCORD_OWNER_IDS','SESSION_SECRET'];
 class HttpError extends Error { constructor(status,message){ super(message); this.status=status; } }
-function ready(){return keys.every(k=>process.env[k]) && process.env.SESSION_SECRET.length>=32;}
+function ready(){return keys.every(k=>process.env[k]) && process.env.SESSION_SECRET.length>=32 && ((process.env.DISCORD_CLIENT_ID&&process.env.DISCORD_CLIENT_SECRET)||(process.env.GOOGLE_CLIENT_ID&&process.env.GOOGLE_CLIENT_SECRET));}
 function config(){if(!ready())throw new HttpError(503,'아직 접수 준비 중입니다. 잠시 후 다시 방문해주세요.');const origin=new URL(process.env.APP_URL).origin;if(!origin.startsWith('https://')&&!/^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(origin))throw new HttpError(503,'사이트 주소 설정을 확인해주세요.');return {origin,owners:process.env.DISCORD_OWNER_IDS.split(',').map(x=>x.trim()).filter(x=>/^\d{17,20}$/.test(x))};}
 function sign(payload){const text=Buffer.from(JSON.stringify(payload)).toString('base64url');return text+'.'+crypto.createHmac('sha256',process.env.SESSION_SECRET).update(text).digest('base64url');}
 function verify(value){try{const [text,mac,...rest]=String(value||'').split('.');if(rest.length||!text||!mac)return null;const expected=crypto.createHmac('sha256',process.env.SESSION_SECRET).update(text).digest();const actual=Buffer.from(mac,'base64url');if(expected.length!==actual.length||!crypto.timingSafeEqual(expected,actual))return null;return JSON.parse(Buffer.from(text,'base64url').toString());}catch{return null;}}
 function cookies(req){return Object.fromEntries((req.headers.cookie||'').split(';').map(x=>x.trim().split(/=(.*)/s)).filter(x=>x[0]).map(x=>[x[0],x[1]]));}
 function cookie(name,value,seconds){const secure=config().origin.startsWith('https:')?'; Secure':'';return `${name}=${value}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${seconds}${secure}`;}
-function session(req){const s=verify(cookies(req).aram_session);if(!s||s.exp<Date.now()||!/^\d{17,20}$/.test(s.id))throw new HttpError(401,'디스코드로 로그인해주세요.');return {...s,staff:config().owners.includes(s.id)};}
+function session(req){const s=verify(cookies(req).aram_session);if(!s||s.exp<Date.now()||!(/^(?:\d{17,20}|google:[A-Za-z0-9_-]{1,255})$/).test(s.id))throw new HttpError(401,'Discord 또는 Gmail로 로그인해주세요.');return {...s,staff:config().owners.includes(s.id)};}
 function csrf(req,s){if(req.headers.origin!==config().origin||req.headers['x-csrf-token']!==s.csrf)throw new HttpError(403,'요청을 확인할 수 없습니다. 새로고침 후 다시 시도해주세요.');}
 async function discord(path,method='GET',body){const r=await fetch('https://discord.com/api/v10'+path,{method,headers:{Authorization:'Bot '+process.env.DISCORD_BOT_TOKEN,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(12000)});if(!r.ok)throw new HttpError(r.status===429?429:502,r.status===429?'요청이 많습니다. 잠시 후 다시 시도해주세요.':'디스코드 연결을 완료하지 못했습니다. 잠시 후 다시 시도해주세요.');return r.status===204?null:r.json();}
 const marker='ARAM_REQUEST:';
