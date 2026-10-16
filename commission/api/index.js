@@ -24,7 +24,7 @@ module.exports=async function handler(req,res){
    return json(res,200,{requests:channels.map(ch=>({id:ch.id,...forum.decode(ch)})).filter(m=>m.owner&&forum.owns(s,m)).sort((a,b)=>b.created-a.created).map(({id,title,kind,status,created})=>({id,title,kind,status,created}))});
   }
   if(path==='/api/requests'&&req.method==='POST'){
-   const b=await c.body(req);const title=c.text(b.title,2,90,'프로젝트명');const kind=c.text(b.kind,2,30,'작업 종류');if(!['썸네일','모션 그래픽','3D 비주얼','기타'].includes(kind))throw new c.HttpError(400,'작업 종류를 선택해주세요.');
+   const b=await c.body(req);const title=c.text(b.title,2,90,'프로젝트명');const kind=c.text(b.kind,2,30,'작업 종류');if(!['썸네일','애니메이션','영상','기타'].includes(kind))throw new c.HttpError(400,'작업 종류를 선택해주세요.');
    const description=c.text(b.description,20,3000,'작업 내용');const budget=c.text(b.budget,1,80,'예산');const deadline=c.text(b.deadline,1,80,'희망 일정');
    const reference=typeof b.reference==='string'?b.reference.trim():'';if(reference.length>500||reference&&!/^https?:\/\//i.test(reference))throw new c.HttpError(400,'참고 링크는 http 또는 https 주소로 입력해주세요.');
    if(b.consent!==true)throw new c.HttpError(400,'접수 정보 이용에 동의해주세요.');
