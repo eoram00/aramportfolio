@@ -1,5 +1,16 @@
 {
-  "name": "aram-commissions", "private": true, "version": "1.0.0",
-  "engines": { "node": ">=22" },
-  "scripts": { "start": "node --env-file-if-exists=.env server.js", "test": "node --test" }
+  "name": "aram-commissions",
+  "private": true,
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4"
+  },
+  "packageManager": "pnpm@11.25.0"
 }

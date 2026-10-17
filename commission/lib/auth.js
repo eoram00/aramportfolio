@@ -18,7 +18,8 @@ async function auth(req,res,url,path){
  const identity=await fetch(provider==='google'?'https://openidconnect.googleapis.com/v1/userinfo':'https://discord.com/api/v10/users/@me',{headers:{Authorization:'Bearer '+token.access_token},signal:AbortSignal.timeout(12000)});
  if(!identity.ok)throw new c.HttpError(401,'계정을 확인하지 못했습니다.');const user=await identity.json();
  if(provider==='google'&&(user.email_verified!==true||!user.sub))throw new c.HttpError(401,'인증된 Google 계정이 필요합니다.');
- const session={privacyVersion:decoded.privacyVersion,consentedAt:Date.now(),id:provider==='google'?'google:'+user.sub:user.id,provider,name:provider==='google'?(user.name||'Google 사용자'):(user.global_name||user.username),csrf:crypto.randomBytes(24).toString('hex'),exp:Date.now()+7*86400000};
+ const contact=provider==='google'?{provider,email:typeof user.email==='string'?user.email.slice(0,254):''}:{provider,username:user.username||''};
+ const session={contact,privacyVersion:decoded.privacyVersion,consentedAt:Date.now(),id:provider==='google'?'google:'+user.sub:user.id,provider,name:provider==='google'?(user.name||'Google 사용자'):(user.global_name||user.username),csrf:crypto.randomBytes(24).toString('hex'),exp:Date.now()+7*86400000};
  res.setHeader('Set-Cookie',[c.cookie('aram_oauth','',0),c.cookie('aram_session',c.sign(session),7*86400)]);redirect('/');return true;
 }
 module.exports={auth,providers};

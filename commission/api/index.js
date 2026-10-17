@@ -1,4 +1,5 @@
 const auth=require('../lib/auth');
+const management=require('../lib/request-management');
 const forum=require('../lib/forum');
 const c=require('../lib/core');
 const privacy=require('../lib/privacy');
@@ -25,22 +26,23 @@ module.exports=async function handler(req,res){
   if(path==='/api/auth/logout'&&req.method==='POST'){res.setHeader('Set-Cookie',c.cookie('aram_session','',0));return json(res,200,{ok:true});}
   if(path==='/api/requests'&&req.method==='GET'){
    const channels=await forum.list();
-   return json(res,200,{requests:channels.map(ch=>({id:ch.id,...forum.decode(ch)})).filter(m=>m.ownerKey&&forum.owns(s,m)&&m.created+privacy.notice().retentionDays*86400000>Date.now()).sort((a,b)=>b.created-a.created).map(({id,title,kind,status,created})=>({id,title,kind,status,created}))});
+   return json(res,200,{requests:channels.map(ch=>({id:ch.id,...forum.decode(ch)})).filter(m=>m.ownerKey&&!m.movedTo&&!m.copying&&forum.owns(s,m)&&m.created+privacy.notice().retentionDays*86400000>Date.now()).sort((a,b)=>b.created-a.created).map(({id,title,kind,status,created})=>({id,title,kind,status,created}))});
   }
   if(path==='/api/requests'&&req.method==='POST'){
    const b=await c.body(req);const title=c.text(b.title,2,90,'프로젝트명');const kind=c.text(b.kind,2,30,'작업 종류');if(!['썸네일','애니메이션','영상','기타'].includes(kind))throw new c.HttpError(400,'작업 종류를 선택해주세요.');
    const description=c.text(b.description,20,3000,'작업 내용');const budget=c.text(b.budget,1,80,'예산');const deadline=c.text(b.deadline,1,80,'희망 일정');
    const reference=typeof b.reference==='string'?b.reference.trim():'';if(reference.length>500||reference&&!/^https?:\/\//i.test(reference))throw new c.HttpError(400,'참고 링크는 http 또는 https 주소로 입력해주세요.');
    privacy.consent(b);
+   if(s.id.startsWith('google:')&&!s.contact?.email)throw new c.HttpError(401,'연락처 등록을 위해 로그아웃 후 Google로 다시 로그인해주세요.');
    const channels=await forum.list();
-   if(channels.filter(ch=>{const m=forum.decode(ch);return m&&m.ownerKey===forum.ownerKey(s.id)&&['pending','accepted'].includes(m.status);}).length>=2)throw new c.HttpError(409,'진행 중인 신청은 두 건까지 가능합니다.');
+   if(channels.filter(ch=>{const m=forum.decode(ch);return m&&!m.movedTo&&!m.copying&&m.ownerKey===forum.ownerKey(s.id)&&['pending','accepted'].includes(m.status);}).length>=2)throw new c.HttpError(409,'진행 중인 신청은 두 건까지 가능합니다.');
    const bot=await c.discord('/users/@me'),owners=c.config().owners;if(!owners.length)throw new c.HttpError(503,'관리자 설정을 확인해주세요.');
    const parent=await forum.validateForum(bot.id,owners);
-   const meta={owner:s.id,bot:bot.id,title,kind,status:'pending',created:Date.now(),consent:{version:privacy.notice().version,acceptedAt:Date.now(),collection:true,transfer:true,age14:true}};
-   const initial={content:owners.map(id=>'<@'+id+'>').join(' ')+' 새 작업 신청',allowed_mentions:{parse:[],users:owners},embeds:[{title,description,color:11590895,fields:[{name:'신청자',value:s.name},{name:'종류',value:kind,inline:true},{name:'예산',value:budget,inline:true},{name:'희망 일정',value:deadline,inline:true},...(reference?[{name:'참고 링크',value:reference}]:[])],footer:{text:'ARAM · WEBSITE REQUEST'},timestamp:new Date().toISOString()},{description:'접수 관리 기록',footer:{text:'ARAM_META:'+c.sign(meta)}}]};
+   const meta={schema:2,owner:s.id,bot:bot.id,title,kind,deadline,status:'pending',created:Date.now(),consent:{version:privacy.notice().version,acceptedAt:Date.now(),collection:true,transfer:true,age14:true}};
+   const initial={components:management.controls('pending'),content:owners.map(id=>'<@'+id+'>').join(' ')+' 새 작업 신청',allowed_mentions:{parse:[],users:owners},embeds:[{title,description,color:11590895,fields:[{name:'신청자',value:s.name},...management.contactFields(s),{name:'종류',value:kind,inline:true},{name:'예산',value:budget,inline:true},{name:'희망 일정',value:deadline,inline:true},...(reference?[{name:'참고 링크',value:reference}]:[])],footer:{text:'ARAM · WEBSITE REQUEST'},timestamp:new Date().toISOString()},{description:'접수 관리 기록',footer:{text:'ARAM_META:'+c.sign(meta)}}]};
    const tags=forum.tagsFor(parent,kind);
    const channel=await c.discord('/channels/'+parent.id+'/threads','POST',{name:forum.threadName(meta),auto_archive_duration:10080,applied_tags:tags,message:initial});
-   await c.message(channel.id,{content:'접수 관리 화면에서 수락·거부·취소·연락을 진행해주세요.',components:[{type:1,components:[{type:2,style:5,label:'신청 관리 · 연락하기',url:c.config().origin+'/?request='+channel.id}]}]});
+   await c.discord('/channels/'+channel.id+'/messages/'+channel.id,'PATCH',{components:management.controls('pending',channel.id)});
    return json(res,201,{id:channel.id});
   }
   const match=path.match(/^\/api\/requests\/(\d{17,20})(?:\/(messages|status))?$/);
@@ -64,8 +66,8 @@ module.exports=async function handler(req,res){
    if(match[2]==='status'&&req.method==='POST'){
     const b=await c.body(req);if(!c.statusAllowed(meta.status,b.status,s.staff))throw new c.HttpError(409,'현재 신청 상태에서는 이 작업을 할 수 없습니다.');
     const note=b.note?c.text(b.note,1,800,'사유'):'';
-    meta.status=b.status;await c.discord('/channels/'+channel.id,'PATCH',{name:forum.threadName(meta),archived:false});
-    await c.message(channel.id,{embeds:[{description:labels[meta.status]+(note?'\n'+note:''),color:11590895,author:{name:s.staff?'ARAM':'신청자'},footer:{text:'ARAM · MESSAGE'},timestamp:new Date().toISOString()}]});
+    await management.change(channel.id,s,b.status,note);
+    meta.status=b.status;
     return json(res,200,{ok:true,status:meta.status});
    }
   }
